@@ -1,0 +1,21 @@
+{
+  "name": "sistema_transcontrol_web_app",
+  "version": "1.0.0",
+  "description": "Sistema de Gestión y Control de Transporte de la materia de Pruebas de Software 30729 de la Universidad de las Fuerzas Armadas ESPE",
+    "scripts": {
+    "install": "npm install",
+    "start": "npm run start:web",
+    "dev": "npm run start:web",
+    "start:web": "npx http-server Frontend -p 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tenkenoz/Sistema-de-gesti-n-y-control-de-asistencias.git"
+  },
+  "author": "Jonathan Jaguaco, Alexander Ñacato, Leidy Saraguro, Erick Obando",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tenkenoz/Sistema-de-gesti-n-y-control-de-asistencias/issues"
+  },
+  "homepage": "https://github.com/Tenkenoz/Sistema-de-gesti-n-y-control-de-asistencias#readme"
+}

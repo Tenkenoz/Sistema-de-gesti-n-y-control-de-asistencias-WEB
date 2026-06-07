@@ -1,0 +1,53 @@
+services:
+  # ── BASE DE DATOS ──────────────────────────────────────
+  db:
+    image: postgres:17-alpine
+    container_name: transcontrol_db
+    restart: always
+    environment:
+      POSTGRES_USER: transuser
+      POSTGRES_PASSWORD: nueva_password
+      POSTGRES_DB: transcontrol
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U transuser -d transcontrol"]
+      interval: 20s
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+
+  # ── BACKEND (FASTAPI) ──────────────────────────────────
+  backend:
+    build: ./Backend
+    container_name: transcontrol_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./Backend/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - uploads_data:/app/uploads
+
+  # ── FRONTEND (NGINX) ──────────────────────────────────
+  frontend:
+    build: ./Frontend
+    container_name: transcontrol_frontend
+    restart: always
+    ports:
+      - "3000:80"   # host 3000 -> nginx 80
+    depends_on:
+      backend:
+        condition: service_started
+
+volumes:
+  postgres_data:
+    driver: local
+  uploads_data:
+    driver: local
