@@ -279,6 +279,7 @@
     "yocto-queue": "^0.1.0"
   },
   "devDependencies": {
+    "cypress": "^15.16.0",
     "http-server": "^14.1.1"
   },
   "scripts": {
@@ -288,7 +289,11 @@
     "docker:up": "docker-compose up -d --build",
     "docker:down": "docker-compose down"
   },
-   "keywords": ["transcontrol", "gestion", "viajes"],
+  "keywords": [
+    "transcontrol",
+    "gestion",
+    "viajes"
+  ],
   "author": "",
   "license": "ISC",
   "description": ""

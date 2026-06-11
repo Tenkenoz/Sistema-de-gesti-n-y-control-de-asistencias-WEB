@@ -21,137 +21,36 @@ router = APIRouter(prefix="/api/monitoreo", tags=["Monitoreo"])
 # ⚙️ [PATRÓN STRATEGY] - GPS & Route Tracking Simulation Strategy
 # Define algoritmos intercambiables para calcular la posición actual de un vehículo.
 # Permite cambiar entre coordenadas simuladas por tiempo y coordenadas fijas de BD.
+# → Implementación en: patterns/strategy/gps_tracking_strategy.py
 # =====================================================================
-class GPSTrackingStrategy:
-    def get_location(self, viaje) -> dict:
-        pass
-
-class RealGPSTrackingStrategy(GPSTrackingStrategy):
-    """Estrategia de GPS Real: Obtiene la última posición registrada en base de datos"""
-    def get_location(self, viaje) -> dict:
-        return {
-            "lat": float(viaje.latitud_actual) if viaje.latitud_actual else (float(viaje.latitud_origen) if viaje.latitud_origen else -0.1807),
-            "lng": float(viaje.longitud_actual) if viaje.longitud_actual else (float(viaje.longitud_origen) if viaje.longitud_origen else -78.4678),
-            "tipo_gps": "GPS Real (Telemetría Activa)"
-        }
-
-class SimulatedInterpolationStrategy(GPSTrackingStrategy):
-    """Estrategia de GPS Simulado: Interpolación lineal origen-destino en bucle continuo (60s)"""
-    def get_location(self, viaje) -> dict:
-        lat_ori = float(viaje.latitud_origen) if viaje.latitud_origen else -0.1807
-        lng_ori = float(viaje.longitud_origen) if viaje.longitud_origen else -78.4678
-        lat_des = float(viaje.latitud_destino) if viaje.latitud_destino else -2.1708
-        lng_des = float(viaje.longitud_destino) if viaje.longitud_destino else -79.9224
-        
-        if viaje.estado != EstadoViajeEnum.EN_EJECUCION:
-            return {
-                "lat": lat_ori,
-                "lng": lng_ori,
-                "tipo_gps": "Simulado (Esperando Inicio)"
-            }
-        
-        # Bucle continuo de 60 segundos usando el tiempo del sistema
-        import time
-        segundo_actual = time.time() % 60.0
-        pct = segundo_actual / 60.0
-        
-        lat_act = lat_ori + (lat_des - lat_ori) * pct
-        lng_act = lng_ori + (lng_des - lng_ori) * pct
-        
-        return {
-            "lat": lat_act,
-            "lng": lng_act,
-            "tipo_gps": f"Simulado (En Movimiento: {int(pct * 100)}%)"
-        }
-
-class GPSTrackerContext:
-    def __init__(self, strategy: GPSTrackingStrategy):
-        self._strategy = strategy
-
-    def set_strategy(self, strategy: GPSTrackingStrategy):
-        self._strategy = strategy
-
-    def execute(self, viaje) -> dict:
-        return self._strategy.get_location(viaje)
+from patterns.strategy.gps_tracking_strategy import (
+    GPSTrackingStrategy,
+    RealGPSTrackingStrategy,
+    SimulatedInterpolationStrategy,
+    GPSTrackerContext,
+)
 
 
 # =====================================================================
 # 👁️ [PATRÓN OBSERVER] - Notification & Alert Observer
 # Suscribe y notifica observadores cuando ocurren eventos de monitoreo o desvíos.
+# → Implementación en: patterns/observer/trip_observer.py
 # =====================================================================
-class TripObserver:
-    def notify(self, event_type: str, viaje, db_session, extra_info: str = ""):
-        pass
-
-class AuditObserver(TripObserver):
-    """Observer para auditoría persistente e inmutable en base de datos"""
-    def notify(self, event_type: str, viaje, db_session, extra_info: str = ""):
-        from utils.auditoria import registrar_auditoria
-        registrar_auditoria(
-            db_session,
-            accion=event_type,
-            usuario_id=viaje.creado_por_id,
-            viaje_id=viaje.id,
-            descripcion=f"Evento: {event_type}. Viaje {viaje.codigo}. {extra_info}"
-        )
-
-class NotificationObserver(TripObserver):
-    """Observer para simular el envío de notificaciones automáticas (Push/SMS)"""
-    def __init__(self):
-        self.envios = []
-
-    def notify(self, event_type: str, viaje, db_session, extra_info: str = ""):
-        log_msg = f"[{datetime.utcnow().strftime('%H:%M:%S')}] Notificación Push/SMS enviada a Transportista. Evento: {event_type}. Viaje: {viaje.codigo}. Incidencia: {extra_info}"
-        self.envios.append(log_msg)
-        print(log_msg)
-
-class TripSubject:
-    _observers = []
-
-    @classmethod
-    def register_observer(cls, observer: TripObserver):
-        if observer not in cls._observers:
-            cls._observers.append(observer)
-
-    @classmethod
-    def notify_all(cls, event_type: str, viaje, db_session, extra_info: str = ""):
-        for obs in cls._observers:
-            obs.notify(event_type, viaje, db_session, extra_info)
-
-# Registramos observadores globales
-global_notification_observer = NotificationObserver()
-TripSubject.register_observer(AuditObserver())
-TripSubject.register_observer(global_notification_observer)
+from patterns.observer.trip_observer import (
+    TripObserver,
+    AuditObserver,
+    NotificationObserver,
+    TripSubject,
+    global_notification_observer,
+)
 
 
 # =====================================================================
 # 🎁 [PATRÓN DECORATOR] - Visual Data Badge Decorator
 # Envuelve la respuesta JSON del viaje agregando campos de badges, colores y alertas para UI.
+# → Implementación en: patterns/decorator/viaje_visual_decorator.py
 # =====================================================================
-class ViajeVisualDecorator:
-    def __init__(self, viaje_dict: dict):
-        self._viaje_dict = viaje_dict
-
-    def get_decorated_data(self) -> dict:
-        decorated = dict(self._viaje_dict)
-        retraso = decorated.get("horas_retraso", 0)
-        
-        # Decorar con nivel de riesgo dinámico
-        if retraso > 2.0:
-            decorated["decoracion_alerta"] = "ALTO RIESGO"
-            decorated["decoracion_color"] = "red"
-            decorated["decoracion_mensaje"] = "⚠️ Retraso crítico en la planificación. Llamar inmediatamente."
-        elif retraso > 0:
-            decorated["decoracion_alerta"] = "RIESGO MODERADO"
-            decorated["decoracion_color"] = "orange"
-            decorated["decoracion_mensaje"] = "⏱️ Demora registrada en el trayecto."
-        else:
-            decorated["decoracion_alerta"] = "OPERACIÓN NORMAL"
-            decorated["decoracion_color"] = "green"
-            decorated["decoracion_mensaje"] = "✓ Vehículo en ruta y sin novedades."
-            
-        decorated["decoracion_clima"] = "Clima Reportado: Despejado (22°C)"
-        return decorated
+from patterns.decorator.viaje_visual_decorator import ViajeVisualDecorator
 
 
 def _viaje_monitoreo(v: Viaje) -> dict:

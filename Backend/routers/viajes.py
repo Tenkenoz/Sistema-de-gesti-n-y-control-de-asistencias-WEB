@@ -46,39 +46,13 @@ def _extraer_estado(estado) -> str:
     return estado.value if hasattr(estado, 'value') else str(estado)
 
 
-# ── Catálogo de Ciudades de Ecuador con Coordenadas GPS ────────────────────────
-CIUDADES_ECUADOR = {
-    "QUITO": {"lat": -0.1807, "lng": -78.4678},
-    "GUAYAQUIL": {"lat": -2.1708, "lng": -79.9224},
-    "CUENCA": {"lat": -2.9001, "lng": -79.0059},
-    "MANTA": {"lat": -0.9621, "lng": -80.7127},
-    "PORTOVIEJO": {"lat": -1.0546, "lng": -80.4542},
-    "MACHALA": {"lat": -3.2581, "lng": -79.9553},
-    "AMBATO": {"lat": -1.2491, "lng": -78.6168},
-    "RIOBAMBA": {"lat": -1.6731, "lng": -78.6483},
-    "ESMERALDAS": {"lat": 0.9682, "lng": -79.6517},
-    "LOJA": {"lat": -3.9931, "lng": -79.2042},
-    "IBARRA": {"lat": 0.3517, "lng": -78.1222},
-    "QUEVEDO": {"lat": -1.0225, "lng": -79.4601},
-    "SANTO DOMINGO": {"lat": -0.2530, "lng": -79.1754},
-    "LATACUNGA": {"lat": -0.9316, "lng": -78.6056},
-    "TULCAN": {"lat": 0.8119, "lng": -77.7180},
-    "BABAHOYO": {"lat": -1.8022, "lng": -79.5344},
-}
-
 # =====================================================================
 # 🔌 [PATRÓN ADAPTER] - CityToGPSAdapter
 # Adapta las entradas de texto/ciudades del formulario a coordenadas GPS reales
 # que Leaflet y el mapa interactivo pueden entender.
+# → Implementación en: patterns/adapter/city_gps_adapter.py
 # =====================================================================
-class CityToGPSAdapter:
-    @staticmethod
-    def get_coordinates(city_name: str) -> dict:
-        name_clean = city_name.strip().upper()
-        if name_clean in CIUDADES_ECUADOR:
-            return CIUDADES_ECUADOR[name_clean]
-        # Por defecto si no está en el catálogo, retornamos Quito
-        return {"lat": -0.1807, "lng": -78.4678}
+from patterns.adapter.city_gps_adapter import CityToGPSAdapter, CIUDADES_ECUADOR  # noqa: F401
 
 
 def _viaje_out(v: Viaje) -> dict:
