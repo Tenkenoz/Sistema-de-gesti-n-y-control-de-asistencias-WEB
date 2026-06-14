@@ -12,6 +12,13 @@ Sistema integral para gestión de transportistas, validación documental, contro
 | COORDINADOR   | [coordinador@transcontrol.ec](mailto:coordinador@transcontrol.ec)     | Admin1234! |
 | TRANSPORTISTA | [transportista@transcontrol.ec](mailto:transportista@transcontrol.ec) | Admin1234! |
 
+
+Usuario:
+obanderick@gmail.com
+
+Contraseña:
+mccuhQHgzq
+
 ---
 
 

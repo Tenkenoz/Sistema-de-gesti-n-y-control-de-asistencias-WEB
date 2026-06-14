@@ -59,6 +59,7 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # ── 7. Entrypoint (inicializa PostgreSQL + arranca supervisord) ───────────────
 COPY entrypoint.sh /entrypoint.sh
+RUN sed -i 's/\r$//' /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # ── 8. Volumen y puertos ──────────────────────────────────────────────────────

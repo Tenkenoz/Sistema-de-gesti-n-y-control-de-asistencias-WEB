@@ -161,462 +161,462 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <!-- Left Pane: Forms -->
-                        <div>
-                            <form id="form-login" class="space-y-5" novalidate>
-                                <!-- Correo Electrónico Input with Square Icon Box on Left -->
-                                <div class="flex gap-4 items-end">
-                                    <div
-                                        class="flex items-center justify-center w-12 h-12 rounded-xl bg-brandBlue-50 border border-brandBlue-100 text-brandBlue-500 shrink-0 shadow-sm font-extrabold text-base select-none">
-                                        🪪
-                                    </div>
-                                    <div class="flex-1">
-                                        <label class="block text-sm font-semibold text-gray-700 mb-1">Correo
-                                            Electrónico</label>
-                                        <input type="email" name="username" id="login-username" required
-                                            class="block w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500 text-sm font-medium"
-                                            placeholder="ej. admin@transcontrol.ec" autocomplete="email"
-                                            maxlength="254">
-                                    </div>
+                    <!-- Left Pane: Forms -->
+                    <div>
+                        <form id="form-login" class="space-y-5" novalidate>
+                            <!-- Correo Electrónico Input with Square Icon Box on Left -->
+                            <div class="flex gap-4 items-end">
+                                <div
+                                    class="flex items-center justify-center w-12 h-12 rounded-xl bg-brandBlue-50 border border-brandBlue-100 text-brandBlue-500 shrink-0 shadow-sm font-extrabold text-base select-none">
+                                    🪪
                                 </div>
-                                <div class="pl-16">
-                                    <p id="login-username-error" class="error-message">Ingrese un correo electrónico
-                                        válido.</p>
+                                <div class="flex-1">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Correo
+                                        Electrónico</label>
+                                    <input type="email" name="username" id="login-username" required
+                                        class="block w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500 text-sm font-medium"
+                                        placeholder="ej. admin@transcontrol.ec" autocomplete="email" maxlength="254">
                                 </div>
+                            </div>
+                            <div class="pl-16">
+                                <p id="login-username-error" class="error-message">Ingrese un correo electrónico
+                                    válido.</p>
+                            </div>
 
-                                <!-- Contraseña Input with Square Icon Box on Left -->
-                                <div class="flex gap-4 items-end">
-                                    <div
-                                        class="flex items-center justify-center w-12 h-12 rounded-xl bg-brandBlue-50 border border-brandBlue-100 text-brandBlue-500 shrink-0 shadow-sm font-extrabold text-base select-none">
-                                        🔒
-                                    </div>
-                                    <div class="flex-1">
-                                        <label class="block text-sm font-semibold text-gray-700 mb-1">Contraseña</label>
-                                        <input type="password" name="password" id="login-password" required
-                                            class="block w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500 text-sm font-medium"
-                                            placeholder="••••••••" autocomplete="current-password" minlength="8"
-                                            maxlength="128">
-                                    </div>
+                            <!-- Contraseña Input with Square Icon Box on Left -->
+                            <div class="flex gap-4 items-end">
+                                <div
+                                    class="flex items-center justify-center w-12 h-12 rounded-xl bg-brandBlue-50 border border-brandBlue-100 text-brandBlue-500 shrink-0 shadow-sm font-extrabold text-base select-none">
+                                    🔒
                                 </div>
-                                <div class="pl-16">
-                                    <p id="login-password-error" class="error-message">La contraseña debe tener al menos
-                                        8 caracteres.</p>
+                                <div class="flex-1">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Contraseña</label>
+                                    <input type="password" name="password" id="login-password" required
+                                        class="block w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500 text-sm font-medium"
+                                        placeholder="••••••••" autocomplete="current-password" minlength="8"
+                                        maxlength="128">
                                 </div>
+                            </div>
+                            <div class="pl-16">
+                                <p id="login-password-error" class="error-message">La contraseña debe tener al menos
+                                    8 caracteres.</p>
+                            </div>
 
-                                <div class="flex items-center justify-center pl-16">
-                                    <button type="button" onclick="switchView('recover')"
-                                        class="text-sm text-brandBlue-500 hover:text-brandBlue-700 font-bold transition-colors">¿Olvidaste
-                                        tu Contraseña?</button>
-                                </div>
-                                <div class="pl-16">
-                                    <button type="submit" id="login-btn" disabled
-                                        class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brandOrange-500 transition-colors opacity-50 cursor-not-allowed">
-                                        <span id="login-btn-text">Iniciar Sesión</span>
-                                        <span id="login-btn-spinner" class="spinner ml-2 hidden"></span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <!-- Right Pane: Logo TransControl based on Mockup RE001 -->
-                        <div
-                            class="hidden md:flex flex-col items-center justify-center p-6 border-l border-brandGray-100 h-full min-h-[300px]">
-                            <img src="assets/logo.png" alt="Logo TransControl"
-                                class="w-72 h-auto drop-shadow-xl object-contain max-h-[280px]">
-                        </div>
+                            <div class="flex items-center justify-center pl-16">
+                                <button type="button" onclick="switchView('recover')"
+                                    class="text-sm text-brandBlue-500 hover:text-brandBlue-700 font-bold transition-colors">¿Olvidaste
+                                    tu Contraseña?</button>
+                            </div>
+                            <div class="pl-16">
+                                <button type="submit" id="login-btn" disabled
+                                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brandOrange-500 transition-colors opacity-50 cursor-not-allowed">
+                                    <span id="login-btn-text">Iniciar Sesión</span>
+                                    <span id="login-btn-spinner" class="spinner ml-2 hidden"></span>
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </div>
-                <!-- Footer -->
-                <div class="mt-8 text-center text-sm text-gray-500">
-                    &copy; 2026 TransControl App. Todos los derechos reservados.
+
+                    <!-- Right Pane: Logo TransControl based on Mockup RE001 -->
+                    <div
+                        class="hidden md:flex flex-col items-center justify-center p-6 border-l border-brandGray-100 h-full min-h-[300px]">
+                        <img src="assets/logo.png" alt="Logo TransControl"
+                            class="w-72 h-auto drop-shadow-xl object-contain max-h-[280px]">
+                    </div>
                 </div>
             </div>
-
-            <!-- LAYOUT: RECOVER (RE008) -->
-            <div id="view-recover" class="hidden-view sm:max-w-lg mx-auto w-full animate-fade-in">
-                <!-- Top bar: TransControl left, Logo right -->
-                <div class="flex justify-between items-center mb-6 w-full px-2">
-                    <span class="text-2xl font-extrabold text-brandBlue-700 tracking-tight">TransControl</span>
-                    <div class="w-12 h-12 border border-brandBlue-200 rounded-xl bg-white flex items-center justify-center shadow-sm select-none overflow-hidden p-1">
-                        <img src="assets/logo.png" alt="Logo" class="w-full h-full object-contain">
-                    </div>
-                </div>
-
-                <!-- Main Card -->
-                <div
-                    class="bg-white py-8 px-6 shadow-2xl sm:rounded-3xl border border-brandGray-100 relative overflow-hidden">
-                    <h3 class="text-2xl font-bold text-center text-brandBlue-700 mb-6">Recuperar Contraseña</h3>
-
-                    <form id="form-recover" class="space-y-5" novalidate>
-                        <!-- Correo Electrónico Input with Square Icon Box on Left -->
-                        <div class="flex gap-4 items-end">
-                            <div
-                                class="flex items-center justify-center w-12 h-12 rounded-xl bg-brandBlue-50 border border-brandBlue-100 text-brandBlue-500 shrink-0 shadow-sm font-extrabold text-base select-none">
-                                🪪
-                            </div>
-                            <div class="flex-1">
-                                <label class="block text-sm font-semibold text-gray-700 mb-1">Correo Electrónico</label>
-                                <input type="email" name="correo" id="recover-email" required
-                                    class="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500 text-sm font-medium"
-                                    placeholder="tu@correo.com" maxlength="254">
-                            </div>
-                        </div>
-                        <div class="pl-16">
-                            <p id="recover-email-error" class="error-message">Ingrese un correo electrónico válido.</p>
-                        </div>
-
-                        <div class="pl-16">
-                            <button type="submit" id="recover-btn" disabled
-                                class="w-full py-3 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 transition-colors flex justify-center items-center opacity-50 cursor-not-allowed">
-                                <span id="recover-btn-text">Enviar Instrucciones</span>
-                                <span id="recover-btn-spinner" class="spinner ml-2 hidden"></span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Bottom bar: Volver al login left, copyright center -->
-                <div class="flex justify-between items-center mt-8 px-2 flex-wrap gap-4">
-                    <button onclick="switchView('login')"
-                        class="flex items-center text-sm text-gray-600 hover:text-brandBlue-700 transition-colors font-bold bg-white border border-gray-300 rounded-xl px-4 py-2 shadow-sm">
-                        <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                        </svg>
-                        Volver al login
-                    </button>
-                    <div class="text-sm text-gray-500 font-medium">
-                        &copy; 2026 TransControl App
-                    </div>
-                </div>
+            <!-- Footer -->
+            <div class="mt-8 text-center text-sm text-gray-500">
+                &copy; 2026 TransControl App. Todos los derechos reservados.
             </div>
         </div>
 
-        <script>
-            const API_BASE_URL = '';
+        <!-- LAYOUT: RECOVER (RE008) -->
+        <div id="view-recover" class="hidden-view sm:max-w-lg mx-auto w-full animate-fade-in">
+            <!-- Top bar: TransControl left, Logo right -->
+            <div class="flex justify-between items-center mb-6 w-full px-2">
+                <span class="text-2xl font-extrabold text-brandBlue-700 tracking-tight">TransControl</span>
+                <div
+                    class="w-12 h-12 border border-brandBlue-200 rounded-xl bg-white flex items-center justify-center shadow-sm select-none overflow-hidden p-1">
+                    <img src="assets/logo.png" alt="Logo" class="w-full h-full object-contain">
+                </div>
+            </div>
 
-            const views = {
-                login: document.getElementById('view-login'),
-                recover: document.getElementById('view-recover')
-            };
+            <!-- Main Card -->
+            <div
+                class="bg-white py-8 px-6 shadow-2xl sm:rounded-3xl border border-brandGray-100 relative overflow-hidden">
+                <h3 class="text-2xl font-bold text-center text-brandBlue-700 mb-6">Recuperar Contraseña</h3>
 
-            function switchView(viewName) {
-                Object.values(views).forEach(v => {
-                    v.classList.add('hidden-view');
-                    v.classList.remove('animate-fade-in');
+                <form id="form-recover" class="space-y-5" novalidate>
+                    <!-- Correo Electrónico Input with Square Icon Box on Left -->
+                    <div class="flex gap-4 items-end">
+                        <div
+                            class="flex items-center justify-center w-12 h-12 rounded-xl bg-brandBlue-50 border border-brandBlue-100 text-brandBlue-500 shrink-0 shadow-sm font-extrabold text-base select-none">
+                            🪪
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Correo Electrónico</label>
+                            <input type="email" name="correo" id="recover-email" required
+                                class="w-full px-3.5 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500 text-sm font-medium"
+                                placeholder="tu@correo.com" maxlength="254">
+                        </div>
+                    </div>
+                    <div class="pl-16">
+                        <p id="recover-email-error" class="error-message">Ingrese un correo electrónico válido.</p>
+                    </div>
+
+                    <div class="pl-16">
+                        <button type="submit" id="recover-btn" disabled
+                            class="w-full py-3 border border-transparent rounded-xl shadow-md text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 transition-colors flex justify-center items-center opacity-50 cursor-not-allowed">
+                            <span id="recover-btn-text">Enviar Contraseña</span>
+                            <span id="recover-btn-spinner" class="spinner ml-2 hidden"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Bottom bar: Volver al login left, copyright center -->
+            <div class="flex justify-between items-center mt-8 px-2 flex-wrap gap-4">
+                <button onclick="switchView('login')"
+                    class="flex items-center text-sm text-gray-600 hover:text-brandBlue-700 transition-colors font-bold bg-white border border-gray-300 rounded-xl px-4 py-2 shadow-sm">
+                    <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Volver al login
+                </button>
+                <div class="text-sm text-gray-500 font-medium">
+                    &copy; 2026 TransControl App
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '';
+
+        const views = {
+            login: document.getElementById('view-login'),
+            recover: document.getElementById('view-recover')
+        };
+
+        function switchView(viewName) {
+            Object.values(views).forEach(v => {
+                v.classList.add('hidden-view');
+                v.classList.remove('animate-fade-in');
+            });
+            clearAllErrors();
+
+            document.getElementById('form-login').reset();
+            document.getElementById('form-recover').reset();
+            checkLoginFormValidity();
+            checkRecoverFormValidity();
+
+            setTimeout(() => {
+                views[viewName].classList.remove('hidden-view');
+                views[viewName].classList.add('animate-fade-in');
+            }, 50);
+        }
+
+        let toastTimeout;
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            const iconSuccess = document.getElementById('toast-icon-success');
+            const iconError = document.getElementById('toast-icon-error');
+
+            clearTimeout(toastTimeout);
+            msgEl.textContent = message;
+
+            if (type === 'error') {
+                toast.className = 'rounded-lg p-4 shadow-lg flex items-center bg-red-50 text-red-800 border-l-4 border-red-500';
+                iconSuccess.classList.add('hidden');
+                iconError.classList.remove('hidden');
+            } else {
+                toast.className = 'rounded-lg p-4 shadow-lg flex items-center bg-green-50 text-green-800 border-l-4 border-green-500';
+                iconSuccess.classList.remove('hidden');
+                iconError.classList.add('hidden');
+            }
+
+            container.classList.remove('hidden', 'animate-fade-out-up');
+            container.classList.add('animate-fade-in-down');
+
+            toastTimeout = setTimeout(() => {
+                container.classList.remove('animate-fade-in-down');
+                container.classList.add('animate-fade-out-up');
+                setTimeout(() => container.classList.add('hidden'), 300);
+            }, 4000);
+        }
+
+        function setLoading(formId, isLoading) {
+            const btn = document.getElementById(formId);
+            const text = document.getElementById(formId + '-text');
+            const spinner = document.getElementById(formId + '-spinner');
+
+            if (isLoading) {
+                btn.disabled = true;
+                btn.classList.add('opacity-75');
+                spinner.classList.remove('hidden');
+                text.textContent = 'Procesando...';
+            } else {
+                btn.disabled = false;
+                btn.classList.remove('opacity-75');
+                spinner.classList.add('hidden');
+                if (formId === 'login-btn') text.textContent = 'Iniciar Sesión';
+                if (formId === 'recover-btn') text.textContent = 'Enviar Instrucciones';
+                if (formId === 'login-btn') checkLoginFormValidity();
+                if (formId === 'recover-btn') checkRecoverFormValidity();
+            }
+        }
+
+        function redirectByRole(rol) {
+            localStorage.setItem('user_rol', rol);
+            switch (rol) {
+                case 'COORDINADOR':
+                    window.location.href = 'views/coordinador_view.html';
+                    break;
+                case 'SECRETARIA':
+                    window.location.href = 'views/secretaria_view.html';
+                    break;
+                case 'TRANSPORTISTA':
+                    window.location.href = 'views/transportista_view.html';
+                    break;
+                default:
+                    showToast('Rol no reconocido', 'error');
+            }
+        }
+
+        function clearAllErrors() {
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('visible'));
+            document.querySelectorAll('input').forEach(el => {
+                el.classList.remove('input-error');
+            });
+        }
+
+        function showFieldError(inputId, errorId) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            if (input) input.classList.add('input-error');
+            if (error) error.classList.add('visible');
+        }
+
+        function hideFieldError(inputId, errorId) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            if (input) input.classList.remove('input-error');
+            if (error) error.classList.remove('visible');
+        }
+
+        function isValidEmail(value) {
+            return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value.trim());
+        }
+
+        function isValidPassword(value) {
+            return value && value.length >= 8;
+        }
+
+        function checkLoginFormValidity() {
+            const email = document.getElementById('login-username').value.trim();
+            const pass = document.getElementById('login-password').value;
+            const btn = document.getElementById('login-btn');
+
+            const emailValid = isValidEmail(email);
+            const passValid = isValidPassword(pass);
+
+            if (emailValid && passValid) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function checkRecoverFormValidity() {
+            const email = document.getElementById('recover-email').value.trim();
+            const btn = document.getElementById('recover-btn');
+
+            const emailValid = isValidEmail(email);
+
+            if (emailValid) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function validateEmailField() {
+            const input = document.getElementById('login-username');
+            const value = input.value.trim();
+            if (value === '') {
+                hideFieldError('login-username', 'login-username-error');
+            } else if (isValidEmail(value)) {
+                hideFieldError('login-username', 'login-username-error');
+            } else {
+                showFieldError('login-username', 'login-username-error');
+            }
+            checkLoginFormValidity();
+        }
+
+        function validatePasswordField() {
+            const input = document.getElementById('login-password');
+            const value = input.value;
+            if (value === '') {
+                hideFieldError('login-password', 'login-password-error');
+            } else if (isValidPassword(value)) {
+                hideFieldError('login-password', 'login-password-error');
+            } else {
+                showFieldError('login-password', 'login-password-error');
+            }
+            checkLoginFormValidity();
+        }
+
+        function validateRecoverEmailField() {
+            const input = document.getElementById('recover-email');
+            const value = input.value.trim();
+            if (value === '') {
+                hideFieldError('recover-email', 'recover-email-error');
+            } else if (isValidEmail(value)) {
+                hideFieldError('recover-email', 'recover-email-error');
+            } else {
+                showFieldError('recover-email', 'recover-email-error');
+            }
+            checkRecoverFormValidity();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const usernameInput = document.getElementById('login-username');
+            const passwordInput = document.getElementById('login-password');
+            const recoverEmailInput = document.getElementById('recover-email');
+
+            if (usernameInput) {
+                usernameInput.addEventListener('input', validateEmailField);
+                usernameInput.addEventListener('blur', validateEmailField);
+            }
+            if (passwordInput) {
+                passwordInput.addEventListener('input', validatePasswordField);
+                passwordInput.addEventListener('blur', validatePasswordField);
+            }
+            if (recoverEmailInput) {
+                recoverEmailInput.addEventListener('input', validateRecoverEmailField);
+                recoverEmailInput.addEventListener('blur', validateRecoverEmailField);
+            }
+
+            checkLoginFormValidity();
+            checkRecoverFormValidity();
+        });
+
+        document.getElementById('form-login').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (!isValidEmail(username) || !isValidPassword(password)) {
+                showToast('Corrija los errores antes de continuar.', 'error');
+                return;
+            }
+
+            setLoading('login-btn', true);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
                 });
-                clearAllErrors();
 
-                document.getElementById('form-login').reset();
-                document.getElementById('form-recover').reset();
-                checkLoginFormValidity();
-                checkRecoverFormValidity();
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Error al iniciar sesión');
+                }
+
+                localStorage.setItem('access_token', data.access_token);
+                localStorage.setItem('user_id', data.id);
+                localStorage.setItem('user_rol', data.rol);
+                localStorage.setItem('user_nombres', data.nombres);
+
+                showToast(`¡Bienvenido ${data.nombres}!`, 'success');
+
+                setTimeout(() => redirectByRole(data.rol), 1000);
+
+            } catch (error) {
+                showToast(error.message || 'Error de conexión con el servidor', 'error');
+            } finally {
+                setLoading('login-btn', false);
+            }
+        });
+
+        document.getElementById('form-recover').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const correo = document.getElementById('recover-email').value.trim();
+
+            if (!isValidEmail(correo)) {
+                showToast('Formato de correo inválido.', 'error');
+                return;
+            }
+
+            setLoading('recover-btn', true);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/recuperar-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ correo })
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    throw new Error(data.detail || 'Error al enviar recuperación');
+                }
+
+                showToast('Si el correo existe, recibirás instrucciones.', 'success');
 
                 setTimeout(() => {
-                    views[viewName].classList.remove('hidden-view');
-                    views[viewName].classList.add('animate-fade-in');
-                }, 50);
+                    this.reset();
+                    switchView('login');
+                }, 2000);
+
+            } catch (error) {
+                showToast(error.message || 'Error de conexión', 'error');
+            } finally {
+                setLoading('recover-btn', false);
             }
+        });
 
-            let toastTimeout;
-            function showToast(message, type = 'success') {
-                const container = document.getElementById('toast-container');
-                const toast = document.getElementById('toast');
-                const msgEl = document.getElementById('toast-message');
-                const iconSuccess = document.getElementById('toast-icon-success');
-                const iconError = document.getElementById('toast-icon-error');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('access_token');
+            const rol = localStorage.getItem('user_rol');
 
-                clearTimeout(toastTimeout);
-                msgEl.textContent = message;
+            if (!token || !rol) return;
 
-                if (type === 'error') {
-                    toast.className = 'rounded-lg p-4 shadow-lg flex items-center bg-red-50 text-red-800 border-l-4 border-red-500';
-                    iconSuccess.classList.add('hidden');
-                    iconError.classList.remove('hidden');
-                } else {
-                    toast.className = 'rounded-lg p-4 shadow-lg flex items-center bg-green-50 text-green-800 border-l-4 border-green-500';
-                    iconSuccess.classList.remove('hidden');
-                    iconError.classList.add('hidden');
-                }
-
-                container.classList.remove('hidden', 'animate-fade-out-up');
-                container.classList.add('animate-fade-in-down');
-
-                toastTimeout = setTimeout(() => {
-                    container.classList.remove('animate-fade-in-down');
-                    container.classList.add('animate-fade-out-up');
-                    setTimeout(() => container.classList.add('hidden'), 300);
-                }, 4000);
-            }
-
-            function setLoading(formId, isLoading) {
-                const btn = document.getElementById(formId);
-                const text = document.getElementById(formId + '-text');
-                const spinner = document.getElementById(formId + '-spinner');
-
-                if (isLoading) {
-                    btn.disabled = true;
-                    btn.classList.add('opacity-75');
-                    spinner.classList.remove('hidden');
-                    text.textContent = 'Procesando...';
-                } else {
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-75');
-                    spinner.classList.add('hidden');
-                    if (formId === 'login-btn') text.textContent = 'Iniciar Sesión';
-                    if (formId === 'recover-btn') text.textContent = 'Enviar Instrucciones';
-                    if (formId === 'login-btn') checkLoginFormValidity();
-                    if (formId === 'recover-btn') checkRecoverFormValidity();
-                }
-            }
-
-            function redirectByRole(rol) {
-                localStorage.setItem('user_rol', rol);
-                switch (rol) {
-                    case 'COORDINADOR':
-                        window.location.href = 'views/coordinador_view.html';
-                        break;
-                    case 'SECRETARIA':
-                        window.location.href = 'views/secretaria_view.html';
-                        break;
-                    case 'TRANSPORTISTA':
-                        window.location.href = 'views/transportista_view.html';
-                        break;
-                    default:
-                        showToast('Rol no reconocido', 'error');
-                }
-            }
-
-            function clearAllErrors() {
-                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('visible'));
-                document.querySelectorAll('input').forEach(el => {
-                    el.classList.remove('input-error');
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
-            }
 
-            function showFieldError(inputId, errorId) {
-                const input = document.getElementById(inputId);
-                const error = document.getElementById(errorId);
-                if (input) input.classList.add('input-error');
-                if (error) error.classList.add('visible');
-            }
-
-            function hideFieldError(inputId, errorId) {
-                const input = document.getElementById(inputId);
-                const error = document.getElementById(errorId);
-                if (input) input.classList.remove('input-error');
-                if (error) error.classList.remove('visible');
-            }
-
-            function isValidEmail(value) {
-                return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value.trim());
-            }
-
-            function isValidPassword(value) {
-                return value && value.length >= 8;
-            }
-
-            function checkLoginFormValidity() {
-                const email = document.getElementById('login-username').value.trim();
-                const pass = document.getElementById('login-password').value;
-                const btn = document.getElementById('login-btn');
-
-                const emailValid = isValidEmail(email);
-                const passValid = isValidPassword(pass);
-
-                if (emailValid && passValid) {
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else {
-                    btn.disabled = true;
-                    btn.classList.add('opacity-50', 'cursor-not-allowed');
-                }
-            }
-
-            function checkRecoverFormValidity() {
-                const email = document.getElementById('recover-email').value.trim();
-                const btn = document.getElementById('recover-btn');
-
-                const emailValid = isValidEmail(email);
-
-                if (emailValid) {
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else {
-                    btn.disabled = true;
-                    btn.classList.add('opacity-50', 'cursor-not-allowed');
-                }
-            }
-
-            function validateEmailField() {
-                const input = document.getElementById('login-username');
-                const value = input.value.trim();
-                if (value === '') {
-                    hideFieldError('login-username', 'login-username-error');
-                } else if (isValidEmail(value)) {
-                    hideFieldError('login-username', 'login-username-error');
-                } else {
-                    showFieldError('login-username', 'login-username-error');
-                }
-                checkLoginFormValidity();
-            }
-
-            function validatePasswordField() {
-                const input = document.getElementById('login-password');
-                const value = input.value;
-                if (value === '') {
-                    hideFieldError('login-password', 'login-password-error');
-                } else if (isValidPassword(value)) {
-                    hideFieldError('login-password', 'login-password-error');
-                } else {
-                    showFieldError('login-password', 'login-password-error');
-                }
-                checkLoginFormValidity();
-            }
-
-            function validateRecoverEmailField() {
-                const input = document.getElementById('recover-email');
-                const value = input.value.trim();
-                if (value === '') {
-                    hideFieldError('recover-email', 'recover-email-error');
-                } else if (isValidEmail(value)) {
-                    hideFieldError('recover-email', 'recover-email-error');
-                } else {
-                    showFieldError('recover-email', 'recover-email-error');
-                }
-                checkRecoverFormValidity();
-            }
-
-            document.addEventListener('DOMContentLoaded', () => {
-                const usernameInput = document.getElementById('login-username');
-                const passwordInput = document.getElementById('login-password');
-                const recoverEmailInput = document.getElementById('recover-email');
-
-                if (usernameInput) {
-                    usernameInput.addEventListener('input', validateEmailField);
-                    usernameInput.addEventListener('blur', validateEmailField);
-                }
-                if (passwordInput) {
-                    passwordInput.addEventListener('input', validatePasswordField);
-                    passwordInput.addEventListener('blur', validatePasswordField);
-                }
-                if (recoverEmailInput) {
-                    recoverEmailInput.addEventListener('input', validateRecoverEmailField);
-                    recoverEmailInput.addEventListener('blur', validateRecoverEmailField);
-                }
-
-                checkLoginFormValidity();
-                checkRecoverFormValidity();
-            });
-
-            document.getElementById('form-login').addEventListener('submit', async function (e) {
-                e.preventDefault();
-
-                const username = document.getElementById('login-username').value.trim();
-                const password = document.getElementById('login-password').value;
-
-                if (!isValidEmail(username) || !isValidPassword(password)) {
-                    showToast('Corrija los errores antes de continuar.', 'error');
+                if (!response.ok) {
+                    localStorage.clear();
+                    showToast('Tu sesión ha expirado. Inicia sesión nuevamente.', 'error');
                     return;
                 }
 
-                setLoading('login-btn', true);
-
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username, password })
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.detail || 'Error al iniciar sesión');
-                    }
-
-                    localStorage.setItem('access_token', data.access_token);
-                    localStorage.setItem('user_id', data.id);
-                    localStorage.setItem('user_rol', data.rol);
-                    localStorage.setItem('user_nombres', data.nombres);
-
-                    showToast(`¡Bienvenido ${data.nombres}!`, 'success');
-
-                    setTimeout(() => redirectByRole(data.rol), 1000);
-
-                } catch (error) {
-                    showToast(error.message || 'Error de conexión con el servidor', 'error');
-                } finally {
-                    setLoading('login-btn', false);
+                const userData = await response.json();
+                if (userData.rol !== rol) {
+                    localStorage.setItem('user_rol', userData.rol);
                 }
-            });
+                redirectByRole(userData.rol);
 
-            document.getElementById('form-recover').addEventListener('submit', async function (e) {
-                e.preventDefault();
-
-                const correo = document.getElementById('recover-email').value.trim();
-
-                if (!isValidEmail(correo)) {
-                    showToast('Formato de correo inválido.', 'error');
-                    return;
-                }
-
-                setLoading('recover-btn', true);
-
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/auth/recuperar-password`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ correo })
-                    });
-
-                    if (!response.ok) {
-                        const data = await response.json();
-                        throw new Error(data.detail || 'Error al enviar recuperación');
-                    }
-
-                    showToast('Si el correo existe, recibirás instrucciones.', 'success');
-
-                    setTimeout(() => {
-                        this.reset();
-                        switchView('login');
-                    }, 2000);
-
-                } catch (error) {
-                    showToast(error.message || 'Error de conexión', 'error');
-                } finally {
-                    setLoading('recover-btn', false);
-                }
-            });
-
-            document.addEventListener('DOMContentLoaded', async () => {
-                const token = localStorage.getItem('access_token');
-                const rol = localStorage.getItem('user_rol');
-
-                if (!token || !rol) return;
-
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-
-                    if (!response.ok) {
-                        localStorage.clear();
-                        showToast('Tu sesión ha expirado. Inicia sesión nuevamente.', 'error');
-                        return;
-                    }
-
-                    const userData = await response.json();
-                    if (userData.rol !== rol) {
-                        localStorage.setItem('user_rol', userData.rol);
-                    }
-                    redirectByRole(userData.rol);
-
-                } catch (error) {
-                    showToast('No se pudo conectar con el servidor.', 'error');
-                }
-            });
-        </script>
+            } catch (error) {
+                showToast('No se pudo conectar con el servidor.', 'error');
+            }
+        });
+    </script>
 </body>
 
 </html>

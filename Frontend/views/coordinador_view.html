@@ -707,8 +707,9 @@
                                </button>`
                         }
                     </div>
-                    <button onclick="confirmarEliminarPermanente(${t.id})" class="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 hover:bg-red-50 font-bold p-1.5 rounded-lg transition-colors" title="Eliminar permanentemente de PostgreSQL">
-                        <svg class="h-4.5 w-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    <button onclick="confirmarEliminarPermanente(${t.id})" class="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 hover:bg-red-50 font-bold px-3 py-1.5 rounded-lg transition-colors" title="Eliminar permanentemente de PostgreSQL">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        Eliminar
                     </button>
                 </div>
             </div>`;
@@ -917,7 +918,7 @@
         if (!razon) { showFieldError('delete-razon', 'delete-razon-error', 'Seleccione un motivo.'); showToast('Seleccione un motivo.', 'error'); return; }
         hideFieldError('delete-razon', 'delete-razon-error');
         const id = document.getElementById('delete-id').value;
-        const payload = { razon, observaciones: document.getElementById('delete-observaciones').value };
+        const payload = { razon, observaciones: document.getElementById('delete-observaciones')?.value || '' };
         
         const btn = document.getElementById('btn-desactivar-submit');
         btn.disabled = true;
@@ -931,7 +932,7 @@
             await cargarTransportistas();
         } catch (err) { showToast(err.message, 'error'); }
         finally {
-            btn.textContent = 'Desactivar';
+            btn.textContent = 'Suspender';
             checkDeleteFormValidity();
         }
     });
@@ -1001,7 +1002,7 @@
             limpiarMarcadores();
             renderListaViajes();
 
-            for (const viaje of viajes) {
+            await Promise.all(viajes.map(async (viaje) => {
                 try {
                     const posResp = await fetch(`${API}/api/monitoreo/ubicacion/${viaje.id}?strategy_type=${modo}`, { headers: headers() });
                     if (posResp.ok) {
@@ -1017,7 +1018,7 @@
                     const lng = viaje.longitud_actual || viaje.longitud_origen || -78;
                     agregarMarcador(viaje, lat, lng);
                 }
-            }
+            }));
 
             if (viajes.length > 0 && mapInstance) {
                 const grupo = L.featureGroup(Object.values(marcadores));
