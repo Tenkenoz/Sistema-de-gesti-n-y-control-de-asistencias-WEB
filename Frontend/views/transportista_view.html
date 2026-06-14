@@ -5,6 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TransControl - Dashboard Transportista</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBlue: {
+                            50: '#f4f7fa',
+                            100: '#e8edf3',
+                            500: '#1A3B5C',
+                            600: '#15304b',
+                            700: '#0f253c',
+                        },
+                        brandOrange: {
+                            50: '#fef8f0',
+                            500: '#DE8F26',
+                            600: '#c57c1e',
+                            700: '#a36314',
+                        },
+                        brandGray: {
+                            50: '#F4F5F7',
+                            100: '#eaecf0',
+                            200: '#d0d5dd',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
         .animate-fade-in-down { animation: fadeInDown 0.3s ease-out forwards; }
@@ -20,10 +52,10 @@
         .input-error { border-color: #ef4444 !important; }
         .error-message { color: #dc2626; font-size: 0.75rem; margin-top: 0.25rem; display: none; }
         .error-message.visible { display: block; }
-        .file-upload-area.drag-over { border-color: #14b8a6; background-color: #f0fdfa; }
+        .file-upload-area.drag-over { border-color: #DE8F26; background-color: #fef8f0; }
     </style>
 </head>
-<body class="bg-slate-50 font-sans h-screen flex overflow-hidden">
+<body class="bg-brandGray-50 font-sans h-screen flex overflow-hidden">
 
     <!-- Toast -->
     <div id="toast-container" class="fixed top-4 right-4 z-50 hidden">
@@ -35,28 +67,28 @@
     </div>
 
     <!-- MODAL: SUBIR DOCUMENTO -->
-    <div id="modal-upload" class="modal fixed inset-0 bg-black/60 items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-slate-50">
-                <h3 class="text-lg font-bold text-gray-800">Subir Documento</h3>
+    <div id="modal-upload" class="modal fixed inset-0 bg-black/60 items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in">
+            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-brandGray-50">
+                <h3 class="text-lg font-bold text-brandBlue-700">Subir Documento</h3>
                 <button onclick="closeModal('modal-upload')" class="text-gray-400 hover:text-gray-600"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
             <form id="form-upload" class="p-6" novalidate>
                 <input type="hidden" id="upload-tipo">
-                <p class="text-sm text-gray-600 mb-4">Subiendo: <strong id="upload-nombre"></strong></p>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Archivo PDF * (máx. 2MB)</label>
-                    <div id="file-upload-area" class="file-upload-area border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-teal-400 transition-colors">
+                <p class="text-sm text-gray-600 mb-4">Archivo a cargar en el sistema: <strong id="upload-nombre" class="text-brandBlue-700"></strong></p>
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Archivo PDF * (máx. 2MB)</label>
+                    <div id="file-upload-area" class="file-upload-area border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-brandOrange-500 hover:bg-brandOrange-50/25 transition-all">
                         <input type="file" id="upload-archivo" accept="application/pdf" required class="hidden">
-                        <p id="file-upload-text" class="text-sm text-gray-500">Arrastra un PDF aquí o haz clic para seleccionar</p>
-                        <p id="file-name-display" class="text-sm font-medium text-gray-700 mt-1 hidden"></p>
+                        <p id="file-upload-text" class="text-sm text-gray-500 font-medium">Arrastra un PDF aquí o haz clic para seleccionar desde tus archivos</p>
+                        <p id="file-name-display" class="text-sm font-bold text-brandBlue-700 mt-1 hidden"></p>
                     </div>
                     <p id="upload-error" class="error-message"></p>
                 </div>
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="closeModal('modal-upload')" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Cancelar</button>
-                    <button type="submit" id="btn-upload-submit" class="px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-lg hover:bg-teal-700 flex items-center gap-2">
-                        <span id="upload-btn-text">Subir</span>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                    <button type="button" onclick="closeModal('modal-upload')" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
+                    <button type="submit" id="btn-upload-submit" disabled class="px-5 py-2.5 text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 rounded-xl transition-all opacity-50 cursor-not-allowed shadow-md flex items-center gap-2">
+                        <span id="upload-btn-text">Cargar</span>
                         <span id="upload-spinner" class="spinner hidden"></span>
                     </button>
                 </div>
@@ -65,29 +97,31 @@
     </div>
 
     <!-- SIDEBAR -->
-    <aside class="w-64 bg-teal-900 text-white flex flex-col shadow-xl z-10 flex-shrink-0">
-        <div class="p-6 flex items-center border-b border-teal-800">
-            <svg class="h-6 w-6 mr-3 text-teal-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
-            <h1 class="text-xl font-bold tracking-tight">TransControl</h1>
+    <aside class="w-64 bg-brandBlue-500 text-white flex flex-col shadow-2xl z-10 flex-shrink-0">
+        <div class="p-6 flex items-center border-b border-brandBlue-600">
+            <div class="bg-white p-1 rounded-lg mr-3 shadow-md w-9 h-9 flex items-center justify-center overflow-hidden">
+                <img src="../assets/logo.png" alt="Logo" class="w-full h-full object-contain">
+            </div>
+            <h1 class="text-xl font-extrabold tracking-tight">TransControl</h1>
         </div>
-        <div class="p-4 border-b border-teal-800 bg-teal-950/30">
-            <p class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-1">Conductor</p>
-            <p id="perfil-nombre" class="font-medium text-white truncate">Cargando...</p>
-            <p id="perfil-placa" class="text-sm text-teal-300 font-mono mt-0.5">...</p>
+        <div class="p-4 border-b border-brandBlue-600 bg-brandBlue-700/25">
+            <p class="text-xs font-semibold text-brandBlue-100 uppercase tracking-wider mb-1">Conductor</p>
+            <p id="perfil-nombre" class="font-bold text-white truncate">Cargando...</p>
+            <p id="perfil-placa" class="text-sm text-brandOrange-500 font-mono font-bold mt-0.5">...</p>
         </div>
         <nav class="flex-1 px-3 py-4 space-y-1">
-            <button onclick="switchTab('documentos')" id="tab-btn-documentos" class="w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-teal-800 text-white">
-                <svg class="h-5 w-5 mr-3 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <button onclick="switchTab('documentos')" id="tab-btn-documentos" class="w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all bg-brandBlue-700 text-white shadow-sm border border-brandBlue-600">
+                <svg class="h-5 w-5 mr-3 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 Mi Expediente
                 <span id="badge-alert" class="ml-auto bg-red-500 w-2.5 h-2.5 rounded-full hidden"></span>
             </button>
-            <button onclick="switchTab('viaje')" id="tab-btn-viaje" class="w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-teal-100 hover:bg-teal-800/50">
+            <button onclick="switchTab('viaje')" id="tab-btn-viaje" class="w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all text-brandBlue-100 hover:bg-brandBlue-600/40 hover:text-white">
                 <svg class="h-5 w-5 mr-3 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
                 Mi Viaje Actual
             </button>
         </nav>
-        <div class="p-4 border-t border-teal-800">
-            <button onclick="cerrarSesion()" class="w-full flex items-center px-3 py-2 rounded-lg text-sm font-medium text-teal-200 hover:text-white hover:bg-teal-800 transition-colors">
+        <div class="p-4 border-t border-brandBlue-600">
+            <button onclick="cerrarSesion()" class="w-full flex items-center px-4 py-2.5 rounded-xl text-sm font-medium text-brandBlue-100 hover:text-white hover:bg-brandBlue-600 transition-colors">
                 <svg class="h-5 w-5 mr-3 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                 Cerrar Sesión
             </button>
@@ -96,25 +130,44 @@
 
     <!-- MAIN CONTENT -->
     <main class="flex-1 p-8 overflow-y-auto">
+        <!-- VIEW: DOCUMENTOS -->
         <div id="view-documentos" class="animate-fade-in max-w-4xl mx-auto">
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">Mi Expediente Operativo</h2>
-                <p class="text-sm text-gray-500 mt-1">Gestiona tu documentación obligatoria. Cada documento se revisa individualmente.</p>
+                <h2 class="text-3xl font-extrabold text-brandBlue-700 tracking-tight">Mi Expediente Operativo</h2>
+                <p class="text-sm text-gray-500 mt-1">Gestiona tu documentación obligatoria. Cada documento se revisa individualmente por la secretaría.</p>
             </div>
             <div id="expediente-banner"></div>
-            <div id="documentos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6"></div>
+            <div id="documentos-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6"></div>
         </div>
+        <!-- VIEW: VIAJE -->
         <div id="view-viaje" class="hidden-view animate-fade-in max-w-4xl mx-auto">
             <div class="mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">Mi Viaje Actual</h2>
-                <p class="text-sm text-gray-500">Detalles de tu asignación operativa y ruta de despacho.</p>
+                <h2 class="text-3xl font-extrabold text-brandBlue-700 tracking-tight">Mi Viaje Actual</h2>
+                <p class="text-sm text-gray-500 mt-1">Detalles de tu asignación operativa y ruta de despacho activa.</p>
             </div>
             <div id="container-viaje"></div>
         </div>
-    </main>
+    </main>    <!-- MODAL: DETALLES MERCANCIA -->
+    <div id="modal-mercancia" class="modal fixed inset-0 bg-black/60 items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in p-6">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="text-lg font-bold text-brandBlue-700">Detalles de la Mercancía</h3>
+                <button onclick="closeModal('modal-mercancia')" class="text-gray-400 hover:text-gray-600">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="space-y-3 text-sm text-gray-700 text-left">
+                <p><strong>Descripción:</strong> <span id="merc-tipo" class="font-bold"></span></p>
+                <p><strong>Peso Total:</strong> <span id="merc-peso" class="font-bold"></span></p>
+                <p><strong>Destinatario:</strong> <span id="merc-dest-nombre" class="font-bold"></span></p>
+                <p><strong>Teléfono Destinatario:</strong> <span id="merc-dest-tel" class="font-bold font-mono"></span></p>
+            </div>
+            <button onclick="closeModal('modal-mercancia')" class="mt-6 w-full py-2.5 bg-brandBlue-500 text-white rounded-xl hover:bg-brandBlue-600 font-bold transition-colors shadow-md">Cerrar</button>
+        </div>
+    </div>
 
     <script>
-        const API = ''; // Rutas relativas → Nginx proxea /api/* al backend
+        const API = '';
         const TOKEN = localStorage.getItem('access_token');
         const USER_NOMBRES = localStorage.getItem('user_nombres');
         const USER_ROL = localStorage.getItem('user_rol');
@@ -203,10 +256,10 @@
         function switchTab(tabId) {
             document.getElementById('view-documentos').classList.add('hidden-view');
             document.getElementById('view-viaje').classList.add('hidden-view');
-            document.getElementById('tab-btn-documentos').className = "w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-teal-100 hover:bg-teal-800/50";
-            document.getElementById('tab-btn-viaje').className = "w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-teal-100 hover:bg-teal-800/50";
+            document.getElementById('tab-btn-documentos').className = "w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all text-brandBlue-100 hover:bg-brandBlue-600/40 hover:text-white";
+            document.getElementById('tab-btn-viaje').className = "w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all text-brandBlue-100 hover:bg-brandBlue-600/40 hover:text-white";
             document.getElementById(`view-${tabId}`).classList.remove('hidden-view');
-            document.getElementById(`tab-btn-${tabId}`).className = "w-full flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors bg-teal-800 text-white";
+            document.getElementById(`tab-btn-${tabId}`).className = "w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all bg-brandBlue-700 text-white shadow-sm border border-brandBlue-600";
         }
 
         function renderDocumentos() {
@@ -218,18 +271,19 @@
             const rechazados = docsObligatorios.filter(d => misDocumentos.find(md => md.tipo === d.id && md.estado === 'RECHAZADO')).length;
             const pendientes = docsObligatorios.filter(d => misDocumentos.find(md => md.tipo === d.id && md.estado === 'PENDIENTE')).length;
             badge.classList.toggle('hidden', rechazados === 0 && aprobados === totalDocs);
+            
             if (aprobados === totalDocs) {
-                banner.className = "bg-green-50 border border-green-200 rounded-xl p-4 flex items-center shadow-sm mb-4";
+                banner.className = "bg-green-50 border border-green-200 rounded-2xl p-5 flex items-center shadow-sm mb-4";
                 banner.innerHTML = `<div class="bg-green-100 p-2 rounded-full mr-3 text-green-600">✅</div><div><h3 class="font-bold text-green-800">¡Expediente Completo!</h3><p class="text-sm text-green-700">Todos tus documentos están aprobados.</p></div>`;
             } else if (rechazados > 0) {
-                banner.className = "bg-red-50 border border-red-200 rounded-xl p-4 flex items-center shadow-sm mb-4";
-                banner.innerHTML = `<div class="bg-red-100 p-2 rounded-full mr-3 text-red-600">⚠️</div><div><h3 class="font-bold text-red-800">Documentos Rechazados (${rechazados})</h3><p class="text-sm text-red-700">Corrige los documentos marcados en rojo.</p></div>`;
+                banner.className = "bg-red-50 border border-red-200 rounded-2xl p-5 flex items-center shadow-sm mb-4";
+                banner.innerHTML = `<div class="bg-red-100 p-2 rounded-full mr-3 text-red-600">⚠️</div><div><h3 class="font-bold text-red-800">Documentos Rechazados (${rechazados})</h3><p class="text-sm text-red-700 font-medium">Corrige los documentos marcados en rojo a la brevedad.</p></div>`;
             } else if (pendientes > 0) {
-                banner.className = "bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-center shadow-sm mb-4";
-                banner.innerHTML = `<div class="bg-amber-100 p-2 rounded-full mr-3 text-amber-600">⏳</div><div><h3 class="font-bold text-amber-800">Documentos en Revisión (${pendientes})</h3><p class="text-sm text-amber-700">Secretaría está revisando.</p></div>`;
+                banner.className = "bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-center shadow-sm mb-4";
+                banner.innerHTML = `<div class="bg-amber-100 p-2 rounded-full mr-3 text-amber-600">⏳</div><div><h3 class="font-bold text-amber-800">Documentos en Revisión (${pendientes})</h3><p class="text-sm text-amber-700">La secretaría está revisando tu documentación.</p></div>`;
             } else {
-                banner.className = "bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center shadow-sm mb-4";
-                banner.innerHTML = `<div class="bg-blue-100 p-2 rounded-full mr-3 text-blue-600">📤</div><div><h3 class="font-bold text-blue-800">Sube tu documentación</h3><p class="text-sm text-blue-700">Debes subir los 6 documentos.</p></div>`;
+                banner.className = "bg-brandBlue-50 border border-brandBlue-100 rounded-2xl p-5 flex items-center shadow-sm mb-4";
+                banner.innerHTML = `<div class="bg-brandBlue-100 p-2 rounded-full mr-3 text-brandBlue-500">📤</div><div><h3 class="font-bold text-brandBlue-800">Sube tu documentación</h3><p class="text-sm text-brandBlue-700">Es obligatorio subir los 6 documentos requeridos.</p></div>`;
             }
             grid.innerHTML = docsObligatorios.map(doc => renderCard(doc, misDocumentos.find(md => md.tipo === doc.id))).join('');
         }
@@ -238,25 +292,38 @@
             let bg, border, badgeColor, badgeText, acciones, motivoHTML = '';
             if (!docData) {
                 bg = 'bg-gray-50'; border = 'border-gray-300'; badgeColor = 'bg-gray-200 text-gray-600'; badgeText = 'Faltante';
-                acciones = `<button onclick="openModalUpload('${doc.id}', '${doc.label}')" class="w-full mt-3 px-3 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 font-medium">📤 Subir</button>`;
+                acciones = `<button onclick="openModalUpload('${doc.id}', '${doc.label}')" class="w-full mt-4 px-4 py-2 bg-brandOrange-500 text-white rounded-xl text-sm hover:bg-brandOrange-600 font-bold transition-all shadow-md">📤 Subir Documento</button>`;
             } else if (docData.estado === 'APROBADO') {
-                bg = 'bg-green-50'; border = 'border-green-400'; badgeColor = 'bg-green-200 text-green-800'; badgeText = '✅ Aprobado';
-                acciones = `<button onclick="openModalUpload('${doc.id}', '${doc.label}')" class="w-full mt-3 px-3 py-2 border border-gray-300 text-gray-600 rounded-lg text-sm hover:bg-gray-100">🔄 Reenviar</button>`;
+                bg = 'bg-green-50/30'; border = 'border-green-300'; badgeColor = 'bg-green-200 text-green-800'; badgeText = '✅ Aprobado';
+                acciones = `<button onclick="openModalUpload('${doc.id}', '${doc.label}')" class="w-full mt-4 px-4 py-2 border border-gray-300 text-gray-600 bg-white rounded-xl text-sm hover:bg-gray-50 transition-colors font-medium">🔄 Reenviar</button>`;
             } else if (docData.estado === 'RECHAZADO') {
-                bg = 'bg-red-50'; border = 'border-red-400'; badgeColor = 'bg-red-200 text-red-800'; badgeText = '❌ Rechazado';
-                motivoHTML = `<div class="mt-2 p-2 bg-red-100 rounded text-xs text-red-700"><strong>Motivo:</strong> ${docData.observacion || 'Sin especificar'}</div>`;
-                acciones = `<button onclick="openModalUpload('${doc.id}', '${doc.label}')" class="w-full mt-3 px-3 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700 font-medium">🔄 Corregir y Reenviar</button>`;
+                bg = 'bg-red-50/30'; border = 'border-red-300'; badgeColor = 'bg-red-200 text-red-800'; badgeText = '❌ Rechazado';
+                motivoHTML = `<div class="mt-2.5 p-2.5 bg-red-100/50 rounded-xl text-xs text-red-700 border border-red-200/50"><strong>Motivo:</strong> ${docData.observacion || 'Sin especificar'}</div>`;
+                acciones = `<button onclick="openModalUpload('${doc.id}', '${doc.label}')" class="w-full mt-4 px-4 py-2 bg-red-600 text-white rounded-xl text-sm hover:bg-red-700 font-bold transition-all shadow-md">🔄 Corregir y Reenviar</button>`;
             } else {
-                bg = 'bg-amber-50'; border = 'border-amber-300'; badgeColor = 'bg-amber-200 text-amber-800'; badgeText = '⏳ Pendiente';
-                acciones = `<button onclick="openModalUpload('${doc.id}', '${doc.label}')" class="w-full mt-3 px-3 py-2 border border-gray-300 text-gray-600 rounded-lg text-sm hover:bg-gray-100">🔄 Reenviar</button>`;
+                bg = 'bg-amber-50/30'; border = 'border-amber-300'; badgeColor = 'bg-amber-200 text-amber-800'; badgeText = '⏳ Pendiente';
+                acciones = `<button onclick="openModalUpload('${doc.id}', '${doc.label}')" class="w-full mt-4 px-4 py-2 border border-gray-300 text-gray-600 bg-white rounded-xl text-sm hover:bg-gray-50 transition-colors font-medium">🔄 Reenviar</button>`;
             }
-            return `<div class="rounded-xl border-2 ${border} ${bg} p-4 shadow-sm"><div class="flex justify-between items-start mb-2"><span class="text-2xl">${doc.icono}</span><span class="text-xs px-2 py-0.5 rounded-full font-bold ${badgeColor}">${badgeText}</span></div><h3 class="font-bold text-gray-800 text-sm">${doc.label}</h3><p class="text-xs text-gray-500 mt-1">${doc.desc}</p>${motivoHTML}${acciones}</div>`;
+            return `<div class="rounded-2xl border-2 ${border} ${bg} p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"><div class="flex justify-between items-start mb-3"><span class="text-2xl">${doc.icono}</span><span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase ${badgeColor}">${badgeText}</span></div><div><h3 class="font-extrabold text-brandBlue-700 text-sm leading-tight">${doc.label}</h3><p class="text-xs text-gray-500 mt-1">${doc.desc}</p>${motivoHTML}</div>${acciones}</div>`;
+        }
+
+        function checkUploadFormValidity() {
+            const input = document.getElementById('upload-archivo');
+            const btn = document.getElementById('btn-upload-submit');
+            if (input && input.files && input.files[0] && ALLOWED_TYPES.includes(input.files[0].type) && input.files[0].size <= MAX_FILE_SIZE) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
         }
 
         function setupFileUploadListeners() {
             const area = document.getElementById('file-upload-area');
             const input = document.getElementById('upload-archivo');
             if (!area || !input) return;
+            
             area.addEventListener('click', () => input.click());
             input.addEventListener('change', () => { if (input.files[0]) handleFile(input.files[0]); });
             area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('drag-over'); });
@@ -268,9 +335,12 @@
                 const text = document.getElementById('file-upload-text');
                 const nameDisplay = document.getElementById('file-name-display');
                 errorEl.classList.remove('visible'); input.classList.remove('input-error');
-                if (!ALLOWED_TYPES.includes(file.type)) { errorEl.textContent = 'Solo PDF.'; errorEl.classList.add('visible'); input.classList.add('input-error'); return; }
-                if (file.size > MAX_FILE_SIZE) { errorEl.textContent = `Máx 2MB.`; errorEl.classList.add('visible'); input.classList.add('input-error'); return; }
+                
+                if (!ALLOWED_TYPES.includes(file.type)) { errorEl.textContent = 'Solo se aceptan archivos PDF.'; errorEl.classList.add('visible'); input.classList.add('input-error'); checkUploadFormValidity(); return; }
+                if (file.size > MAX_FILE_SIZE) { errorEl.textContent = `El archivo excede el límite de 2MB.`; errorEl.classList.add('visible'); input.classList.add('input-error'); checkUploadFormValidity(); return; }
+                
                 text.classList.add('hidden'); nameDisplay.textContent = `📄 ${file.name}`; nameDisplay.classList.remove('hidden');
+                checkUploadFormValidity();
             }
         }
 
@@ -281,6 +351,7 @@
             document.getElementById('file-name-display')?.classList.add('hidden');
             document.getElementById('upload-error')?.classList.remove('visible');
             document.getElementById('upload-spinner')?.classList.add('hidden');
+            checkUploadFormValidity();
         }
 
         function openModalUpload(tipo, nombre) {
@@ -294,29 +365,99 @@
             e.preventDefault();
             const archivo = document.getElementById('upload-archivo').files[0];
             if (!archivo) return;
+            
+            const btn = document.getElementById('btn-upload-submit');
+            btn.disabled = true;
             document.getElementById('upload-spinner').classList.remove('hidden');
+            
             const formData = new FormData();
             formData.append('tipo', document.getElementById('upload-tipo').value);
             formData.append('archivo', archivo);
             try {
                 const resp = await fetch(`${API}/api/transportistas/${miTransportistaId}/documentos`, { method: 'POST', headers: { 'Authorization': `Bearer ${TOKEN}` }, body: formData });
                 if (!resp.ok) throw new Error((await resp.json()).detail);
-                showToast('Documento subido');
+                showToast('Documento subido correctamente');
                 closeModal('modal-upload');
                 await cargarDocumentos();
             } catch (err) { showToast(err.message, 'error'); }
-            finally { document.getElementById('upload-spinner').classList.add('hidden'); }
+            finally {
+                document.getElementById('upload-spinner').classList.add('hidden');
+                checkUploadFormValidity();
+            }
         });
 
         function renderViaje() {
             const container = document.getElementById('container-viaje');
             const aprobados = docsObligatorios.filter(d => misDocumentos.find(md => md.tipo === d.id && md.estado === 'APROBADO')).length;
             if (aprobados < 6) {
-                container.innerHTML = `<div class="bg-white rounded-xl border border-dashed border-red-300 p-12 text-center"><p class="text-lg font-bold">Documentación Incompleta</p><button onclick="switchTab('documentos')" class="mt-4 text-teal-600">Ir a mi expediente</button></div>`;
+                container.innerHTML = `<div class="bg-white rounded-2xl border border-dashed border-red-300 p-12 text-center shadow-sm"><p class="text-lg font-bold text-red-800">Documentación Incompleta</p><p class="text-sm text-gray-500 mt-1">Debes tener tus 6 documentos aprobados para poder visualizar las asignaciones de viaje.</p><button onclick="switchTab('documentos')" class="mt-4 px-4 py-2 bg-brandBlue-500 hover:bg-brandBlue-600 text-white rounded-xl text-xs font-bold transition-all shadow-md">Ir a mi expediente</button></div>`;
                 return;
             }
-            if (!miViaje) { container.innerHTML = `<div class="bg-white rounded-xl border border-dashed border-gray-300 p-12 text-center"><p class="text-lg">No tienes viajes asignados.</p></div>`; return; }
-            container.innerHTML = `<div class="bg-white rounded-xl border shadow-sm overflow-hidden"><div class="bg-slate-800 text-white p-5"><p class="text-xs uppercase">Orden de Viaje</p><h3 class="text-2xl font-bold">${miViaje.codigo}</h3><span class="bg-teal-500 text-xs px-3 py-1 rounded-full">${miViaje.estado.replace('_',' ')}</span></div><div class="p-6 grid grid-cols-2 gap-8"><div><h4 class="text-sm font-bold uppercase mb-4">Ruta</h4><p class="text-xs uppercase">Origen</p><p class="font-medium">${miViaje.origen}</p><p class="text-xs uppercase mt-4">Destino</p><p class="font-medium">${miViaje.destino}</p></div><div><h4 class="text-sm font-bold uppercase mb-4">Carga</h4><div class="bg-gray-50 p-4 rounded space-y-3"><div class="flex justify-between"><span class="text-xs uppercase">Mercancía</span><span class="font-medium">${miViaje.tipo_mercancia}</span></div><div class="flex justify-between"><span class="text-xs uppercase">Peso</span><span class="font-medium">${parseFloat(miViaje.peso_total_kg).toLocaleString()} kg</span></div>${miViaje.destinatario_nombre?`<div class="flex justify-between border-t pt-2"><span class="text-xs uppercase">Destinatario</span><span class="font-medium">${miViaje.destinatario_nombre}</span></div>`:''}</div></div></div>${miViaje.observaciones?`<div class="mt-6 bg-amber-50 p-3 rounded text-sm"><strong>Instrucciones:</strong> ${miViaje.observaciones}</div>`:''}</div>`;
+            if (!miViaje) { container.innerHTML = `<div class="bg-white rounded-2xl border border-dashed border-gray-300 p-12 text-center shadow-sm"><p class="text-lg font-semibold text-gray-600">No tienes viajes activos asignados en este momento.</p></div>`; return; }
+            container.innerHTML = `
+            <div class="bg-white rounded-2xl border border-brandGray-100 shadow-md overflow-hidden animate-fade-in">
+                <div class="bg-brandBlue-500 text-white p-6 flex justify-between items-center flex-wrap gap-4">
+                    <div>
+                        <p class="text-xs uppercase font-extrabold tracking-wider text-brandBlue-100">ORDEN DE VIAJE</p>
+                        <h3 class="text-2xl font-extrabold tracking-tight mt-1">${miViaje.codigo}</h3>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs uppercase font-extrabold tracking-wider text-brandBlue-100">Estado Viaje</p>
+                        <span class="inline-block bg-brandOrange-500 text-white text-[11px] font-bold px-3 py-1 rounded-full mt-1.5 shadow-sm uppercase">${miViaje.estado.replace('_',' ')}</span>
+                    </div>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 bg-white">
+                    <!-- Columna Izquierda: Ruta -->
+                    <div>
+                        <h4 class="text-sm font-extrabold uppercase text-brandBlue-700 mb-4 border-b pb-1 tracking-wider">Ruta</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <p class="text-[10px] uppercase text-gray-400 font-extrabold">Origen</p>
+                                <p class="font-bold text-gray-800 text-base">${miViaje.origen}</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase text-gray-400 font-extrabold">Destino</p>
+                                <p class="font-bold text-gray-800 text-base">${miViaje.destino}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Columna Derecha: Mercancía -->
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-4 border-b pb-1">
+                                <h4 class="text-sm font-extrabold uppercase text-brandBlue-700 tracking-wider">Mercancía</h4>
+                                <button onclick="openModalMercancia()" class="text-xs font-bold px-3 py-1.5 bg-brandBlue-50 border border-brandBlue-100 text-brandBlue-500 hover:bg-brandBlue-100 hover:text-brandBlue-700 rounded-xl transition-colors shadow-sm">
+                                    Detalles Mercancía
+                                </button>
+                            </div>
+                            <div class="bg-brandGray-50 border border-brandGray-100 rounded-xl p-4 text-xs text-gray-500">
+                                <p>Haga clic en el botón de arriba para visualizar los detalles consolidados de mercancía, peso y destinatario en un modal seguro.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Botón inferior: Viaje Completado -->
+                        <div class="flex justify-end mt-6">
+                            <button onclick="mostrarInfoCompletar()" class="px-5 py-2.5 text-xs font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 rounded-xl transition-all shadow-md">
+                                Viaje Completado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                ${miViaje.observaciones ? `<div class="mx-6 mb-6 p-4 bg-brandOrange-50 border border-brandOrange-100 rounded-xl text-sm text-brandOrange-700"><strong>Instrucciones del Coordinador:</strong> ${miViaje.observaciones}</div>` : ''}
+            </div>`;
+        }
+
+        function openModalMercancia() {
+            if (!miViaje) return;
+            document.getElementById('merc-tipo').textContent = miViaje.tipo_mercancia || 'No disponible';
+            document.getElementById('merc-peso').textContent = miViaje.peso_total_kg ? parseFloat(miViaje.peso_total_kg).toLocaleString() + ' kg' : '0 kg';
+            document.getElementById('merc-dest-nombre').textContent = miViaje.destinatario_nombre || 'No disponible';
+            document.getElementById('merc-dest-tel').textContent = miViaje.destinatario_tel || 'No disponible';
+            document.getElementById('modal-mercancia').classList.add('active');
+        }
+
+        function mostrarInfoCompletar() {
+            showToast('El viaje debe ser completado por la secretaría o coordinador desde el panel de control de despacho.', 'error');
         }
     </script>
 </body>
