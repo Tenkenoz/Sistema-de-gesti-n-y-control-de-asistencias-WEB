@@ -165,7 +165,8 @@
     </div>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8000';
+        // Rutas relativas → Nginx proxea /api/* al backend interno
+        const API_BASE_URL = '';
 
         const views = {
             login: document.getElementById('view-login'),
