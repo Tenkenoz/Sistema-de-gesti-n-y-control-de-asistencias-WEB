@@ -8,8 +8,8 @@ services:
     container_name: transcontrol_app
     restart: always
     ports:
-      - "3000:80" # Frontend → http://localhost:3000
-      - "8000:8000" # Backend  → http://localhost:8000/docs
+      - "3000:80"   # Frontend  → http://localhost:3000
+      - "8000:8000" # Backend   → http://localhost:8000/docs
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - uploads_data:/app/backend/uploads
