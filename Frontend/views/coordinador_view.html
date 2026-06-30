@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,83 +37,193 @@
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        .animate-fade-in-down { animation: fadeInDown 0.3s ease-out forwards; }
-        .animate-fade-out-up { animation: fadeOutUp 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeOutUp { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
-        .hidden-view { display: none !important; }
-        .modal { display: none; }
-        .modal.active { display: flex; animation: fadeIn 0.2s ease-out; }
-        .spinner { border: 2px solid #fff; border-top: 2px solid transparent; border-radius: 50%; width: 16px; height: 16px; animation: spin 0.6s linear infinite; display: inline-block; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .input-error { border-color: #ef4444 !important; }
-        .error-message { color: #dc2626; font-size: 0.75rem; margin-top: 0.25rem; display: none; }
-        .error-message.visible { display: block; }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .animate-fade-in-down {
+            animation: fadeInDown 0.3s ease-out forwards;
+        }
+
+        .animate-fade-out-up {
+            animation: fadeOutUp 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .hidden-view {
+            display: none !important;
+        }
+
+        .modal {
+            display: none;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .spinner {
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.6s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .input-error {
+            border-color: #ef4444 !important;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
     </style>
 </head>
+
 <body class="bg-brandGray-50 font-sans h-screen flex overflow-hidden">
- 
+
     <!-- Toast -->
     <div id="toast-container" class="fixed top-4 right-4 z-50 hidden">
-        <div id="toast" class="rounded-lg p-4 shadow-lg flex items-center bg-green-50 text-green-800 border-l-4 border-green-500">
-            <svg id="toast-icon-success" class="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            <svg id="toast-icon-error" class="hidden h-5 w-5 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <div id="toast"
+            class="rounded-lg p-4 shadow-lg flex items-center bg-green-50 text-green-800 border-l-4 border-green-500">
+            <svg id="toast-icon-success" class="h-5 w-5 mr-2 text-green-500" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <svg id="toast-icon-error" class="hidden h-5 w-5 mr-2 text-red-500" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
             <span id="toast-message" class="font-medium text-sm">Mensaje</span>
         </div>
     </div>
- 
+
     <!-- MODAL: CREDENCIALES -->
     <div id="modal-credenciales" class="modal fixed inset-0 bg-black/60 items-center justify-center z-50">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
             <div class="bg-green-600 text-white p-6 text-center">
-                <svg class="h-12 w-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <svg class="h-12 w-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
                 <h3 class="text-xl font-bold">¡Transportista Creado!</h3>
             </div>
             <div class="p-6 text-center bg-brandGray-50">
                 <p class="text-sm text-gray-600 mb-4">Comparte estas credenciales con el transportista:</p>
                 <div class="bg-white border border-gray-100 rounded-xl p-4 space-y-3 text-left shadow-sm">
-                    <div><span class="text-xs text-gray-500 uppercase font-bold">Usuario:</span><p id="cred-correo" class="font-mono text-sm font-bold text-gray-900"></p></div>
-                    <div><span class="text-xs text-gray-500 uppercase font-bold">Contraseña:</span><p id="cred-password" class="font-mono text-sm font-bold text-gray-900"></p></div>
+                    <div><span class="text-xs text-gray-500 uppercase font-bold">Usuario:</span>
+                        <p id="cred-correo" class="font-mono text-sm font-bold text-gray-900"></p>
+                    </div>
+                    <div><span class="text-xs text-gray-500 uppercase font-bold">Contraseña:</span>
+                        <p id="cred-password" class="font-mono text-sm font-bold text-gray-900"></p>
+                    </div>
                 </div>
-                <p class="text-xs text-brandOrange-500 font-semibold mt-4">⚠️ Esta contraseña NO se volverá a mostrar.</p>
-                <button onclick="closeModal('modal-credenciales')" class="mt-5 w-full py-2.5 bg-brandBlue-500 text-white rounded-xl hover:bg-brandBlue-600 font-medium transition-colors">Entendido</button>
+                <p class="text-xs text-brandOrange-500 font-semibold mt-4">⚠️ Esta contraseña NO se volverá a mostrar.
+                </p>
+                <button onclick="closeModal('modal-credenciales')"
+                    class="mt-5 w-full py-2.5 bg-brandBlue-500 text-white rounded-xl hover:bg-brandBlue-600 font-medium transition-colors">Entendido</button>
             </div>
         </div>
     </div>
-  
+
     <!-- SIDEBAR -->
     <aside class="w-64 bg-brandBlue-500 text-white flex flex-col shadow-2xl z-10 flex-shrink-0">
         <div class="p-6 flex items-center border-b border-brandBlue-600">
-            <div class="bg-white p-1 rounded-lg mr-3 shadow-md w-9 h-9 flex items-center justify-center overflow-hidden">
+            <div
+                class="bg-white p-1 rounded-lg mr-3 shadow-md w-9 h-9 flex items-center justify-center overflow-hidden">
                 <img src="../assets/logo.png" alt="Logo" class="w-full h-full object-contain">
             </div>
             <h1 class="text-xl font-extrabold tracking-tight">TransControl</h1>
         </div>
         <div class="p-4 text-xs font-semibold text-brandBlue-100 uppercase tracking-wider">Panel Coordinador</div>
         <nav class="flex-1 px-3 space-y-1">
-            <button onclick="switchTab('transportistas')" id="tab-btn-transportistas" class="w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all bg-brandBlue-700 text-white shadow-sm border border-brandBlue-600">
-                <svg class="h-5 w-5 mr-3 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <button onclick="switchTab('transportistas')" id="tab-btn-transportistas"
+                class="w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all bg-brandBlue-700 text-white shadow-sm border border-brandBlue-600">
+                <svg class="h-5 w-5 mr-3 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                    </path>
+                </svg>
                 Gestión de Personal
             </button>
-            <button onclick="switchTab('monitoreo')" id="tab-btn-monitoreo" class="w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all text-brandBlue-100 hover:bg-brandBlue-600/40 hover:text-white">
-                <svg class="h-5 w-5 mr-3 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+            <button onclick="switchTab('monitoreo')" id="tab-btn-monitoreo"
+                class="w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all text-brandBlue-100 hover:bg-brandBlue-600/40 hover:text-white">
+                <svg class="h-5 w-5 mr-3 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7">
+                    </path>
+                </svg>
                 Monitoreo de Rutas
             </button>
         </nav>
         <div class="p-4 border-t border-brandBlue-600">
-            <button onclick="cerrarSesion()" class="w-full flex items-center px-4 py-2.5 rounded-xl text-sm font-medium text-brandBlue-100 hover:text-white hover:bg-brandBlue-600 transition-colors">
-                <svg class="h-5 w-5 mr-3 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            <button onclick="cerrarSesion()"
+                class="w-full flex items-center px-4 py-2.5 rounded-xl text-sm font-medium text-brandBlue-100 hover:text-white hover:bg-brandBlue-600 transition-colors">
+                <svg class="h-5 w-5 mr-3 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                    </path>
+                </svg>
                 Cerrar Sesión
             </button>
         </div>
     </aside>
- 
+
     <!-- MAIN CONTENT -->
     <main class="flex-1 p-8 overflow-y-auto">
         <!-- VIEW: TRANSPORTISTAS -->
@@ -120,15 +231,22 @@
             <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
                 <div>
                     <h2 class="text-3xl font-extrabold text-brandBlue-700 tracking-tight">Gestión de Transportistas</h2>
-                    <p class="text-sm text-gray-500 mt-1">Administra el personal de transporte y sus unidades vehiculares</p>
+                    <p class="text-sm text-gray-500 mt-1">Administra el personal de transporte y sus unidades
+                        vehiculares</p>
                 </div>
                 <div class="flex items-center gap-3 self-end">
-                    <label class="flex items-center gap-2 text-sm bg-white px-4 py-2.5 rounded-xl border border-gray-200 shadow-sm cursor-pointer hover:bg-gray-50 transition-colors">
-                        <input type="checkbox" id="chk-ver-inactivos" onchange="toggleInactivos()" class="rounded border-gray-300 text-brandOrange-500 focus:ring-brandOrange-500">
+                    <label
+                        class="flex items-center gap-2 text-sm bg-white px-4 py-2.5 rounded-xl border border-gray-200 shadow-sm cursor-pointer hover:bg-gray-50 transition-colors">
+                        <input type="checkbox" id="chk-ver-inactivos" onchange="toggleInactivos()"
+                            class="rounded border-gray-300 text-brandOrange-500 focus:ring-brandOrange-500">
                         <span class="font-medium text-gray-700 select-none">Ver inactivos</span>
                     </label>
-                    <button onclick="openModalTransp('create')" class="flex items-center bg-brandOrange-500 hover:bg-brandOrange-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all duration-150">
-                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    <button onclick="openModalTransp('create')"
+                        class="flex items-center bg-brandOrange-500 hover:bg-brandOrange-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all duration-150">
+                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
+                            </path>
+                        </svg>
                         Nuevo Transportista
                     </button>
                 </div>
@@ -139,31 +257,40 @@
                 <!-- Se inyectan las tarjetas dinámicamente -->
             </div>
         </div>
- 
+
         <!-- VIEW: MONITOREO -->
         <div id="view-monitoreo" class="hidden-view animate-fade-in">
             <div class="mb-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                 <div>
                     <h2 class="text-3xl font-extrabold text-brandBlue-700 tracking-tight">Monitoreo de Viajes</h2>
-                    <p class="text-sm text-gray-500 mt-1">Supervisión de flota y rutas en tiempo real mediante satélite</p>
+                    <p class="text-sm text-gray-500 mt-1">Supervisión de flota y rutas en tiempo real mediante satélite
+                    </p>
                 </div>
                 <div class="flex items-center gap-3 self-end">
-                    <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm">
+                    <div
+                        class="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm">
                         <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Modo:</label>
-                        <select id="select-modo-gps" onchange="cambiarModoGPS()" class="text-sm border-0 bg-transparent font-bold text-gray-800 focus:ring-0 cursor-pointer">
+                        <select id="select-modo-gps" onchange="cambiarModoGPS()"
+                            class="text-sm border-0 bg-transparent font-bold text-gray-800 focus:ring-0 cursor-pointer">
                             <option value="simulado">Simulación en Vivo</option>
                             <option value="real">Datos GPS Registrados</option>
                         </select>
                     </div>
-                    <button onclick="recargarMonitoreo()" class="flex items-center gap-2 px-5 py-2.5 bg-brandBlue-500 hover:bg-brandBlue-600 text-white rounded-xl text-sm font-bold shadow-md transition-all">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    <button onclick="recargarMonitoreo()"
+                        class="flex items-center gap-2 px-5 py-2.5 bg-brandBlue-500 hover:bg-brandBlue-600 text-white rounded-xl text-sm font-bold shadow-md transition-all">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                            </path>
+                        </svg>
                         Recargar
                     </button>
                 </div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)]">
                 <!-- Mapa Interactivo -->
-                <div class="lg:col-span-2 bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden relative">
+                <div
+                    class="lg:col-span-2 bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden relative">
                     <div id="map" class="w-full h-full rounded-2xl" style="min-height: 500px; z-index: 1;"></div>
                 </div>
                 <!-- Lista de Viajes -->
@@ -171,7 +298,8 @@
                     <div class="px-6 py-4 border-b border-gray-100 bg-brandGray-50 flex justify-between items-center">
                         <div>
                             <h3 class="font-bold text-brandBlue-700 text-base">Viajes en Ejecución</h3>
-                            <p class="text-xs text-gray-500 mt-0.5"><span id="viajes-count" class="font-bold text-brandOrange-500">0</span> activos actualmente</p>
+                            <p class="text-xs text-gray-500 mt-0.5"><span id="viajes-count"
+                                    class="font-bold text-brandOrange-500">0</span> activos actualmente</p>
                         </div>
                     </div>
                     <div id="viajes-list" class="flex-1 overflow-y-auto p-4 space-y-3">
@@ -181,457 +309,536 @@
             </div>
         </div>
     </main>
- 
+
     <!-- MODAL: CREAR/EDITAR TRANSPORTISTA -->
     <div id="modal-transp" class="modal fixed inset-0 bg-black/50 items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden animate-fade-in">
             <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-brandGray-50">
-                <h3 id="modal-transp-title" class="text-lg font-bold text-brandBlue-700">Registrar Nuevo Transportista</h3>
-                <button onclick="closeModal('modal-transp')" class="text-gray-400 hover:text-gray-600"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                <h3 id="modal-transp-title" class="text-lg font-bold text-brandBlue-700">Registrar Nuevo Transportista
+                </h3>
+                <button onclick="closeModal('modal-transp')" class="text-gray-400 hover:text-gray-600"><svg
+                        class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg></button>
             </div>
             <form id="form-transp" class="p-6" novalidate>
                 <input type="hidden" id="transp-id">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Cédula *</label>
-                        <input id="transp-cedula" name="cedula" type="text" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500" placeholder="10 o 13 dígitos" maxlength="13" inputmode="numeric" pattern="[0-9]*">
+                        <input id="transp-cedula" name="cedula" type="text" required
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500"
+                            placeholder="10 o 13 dígitos" maxlength="13" inputmode="numeric" pattern="[0-9]*">
                         <p id="transp-cedula-error" class="error-message">Cédula inválida (10 o 13 dígitos válidos).</p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Nombres y Apellidos *</label>
-                        <input id="transp-nombres" name="nombres" type="text" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500" placeholder="Nombres completos" maxlength="150">
-                        <p id="transp-nombres-error" class="error-message">Solo letras y espacios (mín. 3 caracteres).</p>
+                        <input id="transp-nombres" name="nombres" type="text" required
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500"
+                            placeholder="Nombres completos" maxlength="150">
+                        <p id="transp-nombres-error" class="error-message">Solo letras y espacios (mín. 3 caracteres).
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Correo *</label>
-                        <input id="transp-correo" name="correo" type="email" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500" placeholder="correo@ejemplo.com" maxlength="254">
-                        <p id="transp-correo-error" class="error-message">Correo electrónico válido (sin caracteres especiales).</p>
+                        <input id="transp-correo" name="correo" type="email" required
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 focus:border-brandBlue-500"
+                            placeholder="correo@ejemplo.com" maxlength="254">
+                        <p id="transp-correo-error" class="error-message">Correo electrónico válido (sin caracteres
+                            especiales).</p>
                     </div>
                     <div id="div-password">
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Contraseña *</label>
                         <div class="flex gap-2">
-                            <input id="transp-password" name="password" type="text" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 bg-gray-50 font-mono" readonly minlength="8">
-                            <button type="button" onclick="generarPassword()" class="px-4 py-2.5 bg-gray-200 hover:bg-gray-300 rounded-xl text-sm font-bold transition-colors">🔄</button>
+                            <input id="transp-password" name="password" type="text" required
+                                class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 bg-gray-50 font-mono"
+                                readonly minlength="8">
+                            <button type="button" onclick="generarPassword()"
+                                class="px-4 py-2.5 bg-gray-200 hover:bg-gray-300 rounded-xl text-sm font-bold transition-colors">🔄</button>
                         </div>
-                        <p class="text-[11px] text-brandOrange-500 font-semibold mt-1">⚠️ Copia esta contraseña. NO se volverá a mostrar.</p>
+                        <p class="text-[11px] text-brandOrange-500 font-semibold mt-1">⚠️ Copia esta contraseña. NO se
+                            volverá a mostrar.</p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Placa Vehículo</label>
-                        <input id="transp-placa" name="placa_vehiculo" type="text" class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 uppercase" placeholder="ABC-1234" maxlength="10">
-                        <p id="transp-placa-error" class="error-message">Formato: 3 letras + guión opcional + 3-4 dígitos (ABC-1234).</p>
+                        <input id="transp-placa" name="placa_vehiculo" type="text"
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 uppercase"
+                            placeholder="ABC-1234" maxlength="10">
+                        <p id="transp-placa-error" class="error-message">Formato: 3 letras + guión opcional + 3-4
+                            dígitos (ABC-1234).</p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Capacidad (Toneladas)</label>
-                        <input id="transp-capacidad" name="capacidad_ton" type="number" step="0.1" class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500" placeholder="0.0" min="0" max="100">
-                        <p id="transp-capacidad-error" class="error-message">Debe ser un número positivo (máx. 100 ton).</p>
+                        <input id="transp-capacidad" name="capacidad_ton" type="number" step="0.1"
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500"
+                            placeholder="0.0" min="0" max="100">
+                        <p id="transp-capacidad-error" class="error-message">Debe ser un número positivo (máx. 100 ton).
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Teléfono</label>
-                        <input id="transp-telefono" name="telefono" type="text" class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500" placeholder="Ej: 0998887776" maxlength="20">
+                        <input id="transp-telefono" name="telefono" type="text"
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500"
+                            placeholder="Ej: 0998887776" maxlength="20">
                         <p id="transp-telefono-error" class="error-message">Debe tener 9 o 10 dígitos.</p>
                     </div>
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
-                    <button type="button" onclick="closeModal('modal-transp')" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
-                    <button type="submit" id="btn-guardar-transp" disabled class="px-5 py-2.5 text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 rounded-xl transition-all opacity-50 cursor-not-allowed shadow-md">Guardar Datos</button>
+                    <button type="button" onclick="closeModal('modal-transp')"
+                        class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
+                    <button type="submit" id="btn-guardar-transp" disabled
+                        class="px-5 py-2.5 text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 rounded-xl transition-all opacity-50 cursor-not-allowed shadow-md">Guardar
+                        Datos</button>
                 </div>
             </form>
         </div>
     </div>
- 
+
     <!-- MODAL: CONFIRMAR ELIMINACIÓN PERMANENTE -->
     <div id="modal-delete-permanente" class="modal fixed inset-0 bg-black/60 items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in p-6 text-center">
             <div class="flex items-center justify-center w-16 h-16 rounded-full bg-red-50 mb-4 mx-auto text-red-600">
-                <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                    </path>
+                </svg>
             </div>
             <h3 class="text-xl font-extrabold text-gray-900 mb-2">⚠️ Eliminar Permanentemente</h3>
-            <p class="text-sm text-gray-500 mb-2">Esta acción <strong>NO se puede deshacer</strong> en la base de datos PostgreSQL.</p>
-            <p class="text-sm text-gray-800 mb-6 font-medium">¿Eliminar a <strong id="perm-delete-name" class="text-brandBlue-700"></strong> y todos sus expedientes?</p>
+            <p class="text-sm text-gray-500 mb-2">Esta acción <strong>NO se puede deshacer</strong> en la base de datos
+                PostgreSQL.</p>
+            <p class="text-sm text-gray-800 mb-6 font-medium">¿Eliminar a <strong id="perm-delete-name"
+                    class="text-brandBlue-700"></strong> y todos sus expedientes?</p>
             <input type="hidden" id="perm-delete-id">
             <div class="flex justify-center gap-3">
-                <button onclick="closeModal('modal-delete-permanente')" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
-                <button onclick="eliminarPermanente()" class="px-5 py-2.5 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-md">Eliminar Definitivamente</button>
+                <button onclick="closeModal('modal-delete-permanente')"
+                    class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
+                <button onclick="eliminarPermanente()"
+                    class="px-5 py-2.5 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-md">Eliminar
+                    Definitivamente</button>
             </div>
         </div>
     </div>
- 
+
     <!-- MODAL: DESACTIVAR TRANSPORTISTA -->
     <div id="modal-delete" class="modal fixed inset-0 bg-black/50 items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in p-6 text-center">
             <form id="form-delete" class="space-y-4" novalidate>
                 <input type="hidden" id="delete-id">
                 <h3 class="text-xl font-bold text-brandBlue-700">Suspender Transportista</h3>
-                <p class="text-sm text-gray-500">¿Seguro que desea suspender a <strong id="delete-name" class="text-gray-800"></strong>?</p>
-                
+                <p class="text-sm text-gray-500">¿Seguro que desea suspender a <strong id="delete-name"
+                        class="text-gray-800"></strong>?</p>
+
                 <div class="text-left hidden">
                     <label class="block text-xs font-semibold text-gray-700 mb-1">Razón *</label>
-                    <select name="razon" id="delete-razon" required class="w-full px-3 py-2 border border-gray-300 rounded-xl focus:ring-brandOrange-500 focus:border-brandOrange-500 bg-white text-sm">
+                    <select name="razon" id="delete-razon" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-xl focus:ring-brandOrange-500 focus:border-brandOrange-500 bg-white text-sm">
                         <option value="TERMINACION_CONTRATO" selected>Terminación de Contrato</option>
                         <option value="INCUMPLIMIENTO_DOCUMENTAL">Incumplimiento Documental</option>
                         <option value="FALTA_GRAVE">Falta Operativa Grave</option>
                         <option value="OTRO">Otro</option>
                     </select>
                 </div>
-                
+
                 <div class="flex justify-center gap-3 pt-2">
-                    <button type="button" onclick="closeModal('modal-delete')" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors font-bold shadow-sm">Cancelar</button>
-                    <button type="submit" id="btn-desactivar-submit" class="px-5 py-2.5 text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 rounded-xl transition-all shadow-md">Suspender</button>
+                    <button type="button" onclick="closeModal('modal-delete')"
+                        class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors font-bold shadow-sm">Cancelar</button>
+                    <button type="submit" id="btn-desactivar-submit"
+                        class="px-5 py-2.5 text-sm font-bold text-white bg-brandOrange-500 hover:bg-brandOrange-600 rounded-xl transition-all shadow-md">Suspender</button>
                 </div>
             </form>
         </div>
     </div>
- 
+
     <!-- MODAL: MODIFICAR RUTA -->
     <div id="modal-ruta" class="modal fixed inset-0 bg-black/50 items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in">
             <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-brandGray-50">
                 <h3 class="text-lg font-bold text-brandBlue-700">Modificar Ruta Operativa</h3>
-                <button onclick="closeModal('modal-ruta')" class="text-gray-400 hover:text-gray-600"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                <button onclick="closeModal('modal-ruta')" class="text-gray-400 hover:text-gray-600"><svg
+                        class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg></button>
             </div>
             <form id="form-ruta" class="p-6" novalidate>
                 <input type="hidden" id="ruta-viaje-id">
-                <div class="bg-brandBlue-50 border border-brandBlue-100 p-4 rounded-xl mb-4 text-sm text-brandBlue-700 shadow-sm">
-                    <p>Modificando ruta operativa del viaje <strong id="ruta-codigo" class="text-brandOrange-500 font-extrabold"></strong>.</p>
+                <div
+                    class="bg-brandBlue-50 border border-brandBlue-100 p-4 rounded-xl mb-4 text-sm text-brandBlue-700 shadow-sm">
+                    <p>Modificando ruta operativa del viaje <strong id="ruta-codigo"
+                            class="text-brandOrange-500 font-extrabold"></strong>.</p>
                 </div>
                 <div class="space-y-4 mb-6">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Nueva Ruta *</label>
-                        <input name="nueva_ruta_json" id="ruta-json" type="text" required class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500" placeholder="URL o GeoJSON de la nueva ruta" maxlength="2000">
-                        <p id="ruta-json-error" class="error-message">La nueva ruta es obligatoria.</p>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Nuevo Destino (Nueva Ruta) *</label>
+                        <select name="nueva_ruta_json" id="ruta-json" required
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 bg-white text-sm font-medium text-gray-800 cursor-pointer">
+                            <option value="" disabled selected>-- Seleccione la nueva ciudad de destino --</option>
+                            <option value="QUITO">Quito</option>
+                            <option value="GUAYAQUIL">Guayaquil</option>
+                            <option value="CUENCA">Cuenca</option>
+                            <option value="MANTA">Manta</option>
+                            <option value="PORTOVIEJO">Portoviejo</option>
+                            <option value="MACHALA">Machala</option>
+                            <option value="AMBATO">Ambato</option>
+                            <option value="RIOBAMBA">Riobamba</option>
+                            <option value="ESMERALDAS">Esmeraldas</option>
+                            <option value="LOJA">Loja</option>
+                            <option value="IBARRA">Ibarra</option>
+                            <option value="QUEVEDO">Quevedo</option>
+                            <option value="SANTO DOMINGO">Santo Domingo</option>
+                            <option value="LATACUNGA">Latacunga</option>
+                            <option value="TULCAN">Tulcán</option>
+                            <option value="BABAHOYO">Babahoyo</option>
+                        </select>
+                        <p id="ruta-json-error" class="error-message">Debe seleccionar un destino.</p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Motivo del Cambio *</label>
-                        <textarea name="motivo" id="ruta-motivo" required rows="3" class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 resize-none" placeholder="Describa el motivo del desvío..." maxlength="500"></textarea>
+                        <textarea name="motivo" id="ruta-motivo" required rows="3"
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-brandBlue-500 resize-none"
+                            placeholder="Describa el motivo del desvío..." maxlength="500"></textarea>
                         <p id="ruta-motivo-error" class="error-message">El motivo es obligatorio.</p>
                     </div>
                 </div>
                 <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
-                    <button type="button" onclick="closeModal('modal-ruta')" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
-                    <button type="submit" id="btn-ruta-submit" disabled class="px-5 py-2.5 text-sm font-bold text-white bg-brandBlue-500 hover:bg-brandBlue-600 rounded-xl transition-all opacity-50 cursor-not-allowed shadow-md">Actualizar Ruta</button>
+                    <button type="button" onclick="closeModal('modal-ruta')"
+                        class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
+                    <button type="submit" id="btn-ruta-submit" disabled
+                        class="px-5 py-2.5 text-sm font-bold text-white bg-brandBlue-500 hover:bg-brandBlue-600 rounded-xl transition-all opacity-50 cursor-not-allowed shadow-md">Actualizar
+                        Ruta</button>
                 </div>
             </form>
         </div>
     </div>
- 
+
     <!-- MODAL: CONFIRMAR ACTIVAR TRANSPORTISTA -->
     <div id="modal-activar" class="modal fixed inset-0 bg-black/60 items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden animate-fade-in p-6 text-center">
             <input type="hidden" id="modal-activar-id">
-            <div class="flex items-center justify-center w-16 h-16 rounded-full bg-green-50 text-green-600 mb-4 mx-auto">
-                <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div
+                class="flex items-center justify-center w-16 h-16 rounded-full bg-green-50 text-green-600 mb-4 mx-auto">
+                <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
             </div>
             <h3 class="text-xl font-bold text-gray-900 mb-2">Reactivar Transportista</h3>
-            <p class="text-sm text-gray-500 mb-6">¿Desea activar nuevamente a <strong id="modal-activar-nombre" class="text-brandBlue-700 font-bold"></strong>?</p>
+            <p class="text-sm text-gray-500 mb-6">¿Desea activar nuevamente a <strong id="modal-activar-nombre"
+                    class="text-brandBlue-700 font-bold"></strong>?</p>
             <div class="flex justify-center gap-3">
-                <button onclick="closeModal('modal-activar')" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
-                <button onclick="confirmarActivar()" class="px-5 py-2.5 text-sm font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition-colors shadow-md">Sí, Activar</button>
+                <button onclick="closeModal('modal-activar')"
+                    class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">Cancelar</button>
+                <button onclick="confirmarActivar()"
+                    class="px-5 py-2.5 text-sm font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition-colors shadow-md">Sí,
+                    Activar</button>
             </div>
         </div>
     </div>
- 
+
     <script>
-    const API = '';
-    const TOKEN = localStorage.getItem('access_token');
-    const ROL = localStorage.getItem('user_rol');
+        const API = '';
+        const TOKEN = localStorage.getItem('access_token');
+        const ROL = localStorage.getItem('user_rol');
 
-    if (!TOKEN || ROL !== 'COORDINADOR') { alert('Acceso no autorizado'); window.location.href = '../index.html'; }
+        if (!TOKEN || ROL !== 'COORDINADOR') { alert('Acceso no autorizado'); window.location.href = '../index.html'; }
 
-    const headers = (json = true) => ({ 'Authorization': `Bearer ${TOKEN}`, ...(json ? { 'Content-Type': 'application/json' } : {}) });
+        const headers = (json = true) => ({ 'Authorization': `Bearer ${TOKEN}`, ...(json ? { 'Content-Type': 'application/json' } : {}) });
 
-    let transportistasData = [];
-    let viajesData = [];
-    let modeTransp = 'create';
-    let verInactivos = false;
-    let mapInstance = null;
-    let marcadores = {};
-    let rutasPolylines = {};
-    let intervaloMonitoreo = null;
+        let transportistasData = [];
+        let viajesData = [];
+        let modeTransp = 'create';
+        let verInactivos = false;
+        let mapInstance = null;
+        let marcadores = {};
+        let rutasPolylines = {};
+        let intervaloMonitoreo = null;
 
-    // ── VALIDACIÓN DE CÉDULA ECUATORIANA ──────────────────────────────────
-    function validarCedulaEcuatoriana(cedula) {
-        if (!/^\d{10}$/.test(cedula)) return false;
-        if (/^(\d)\1{9}$/.test(cedula)) return false;
-        const provincia = parseInt(cedula.substring(0, 2));
-        if (provincia < 1 || provincia > 24) return false;
-        const digitoVerificador = parseInt(cedula.charAt(9));
-        let suma = 0;
-        for (let i = 0; i < 9; i++) {
-            let digito = parseInt(cedula.charAt(i));
-            if (i % 2 === 0) { digito *= 2; if (digito > 9) digito -= 9; }
-            suma += digito;
-        }
-        return ((10 - (suma % 10)) % 10) === digitoVerificador;
-    }
-
-    // ── VALIDACIÓN DE UNICIDAD DE PLACA ──────────────────────────────────
-    function placaUnica(placa, excludeId = null) {
-        const placaNormalizada = placa.trim().toUpperCase().replace(/-/g, '');
-        if (!placaNormalizada) return true;
-        return !transportistasData.some(t => {
-            if (excludeId && t.id === excludeId) return false;
-            const tPlaca = (t.placa_vehiculo || '').trim().toUpperCase().replace(/-/g, '');
-            return tPlaca === placaNormalizada;
-        });
-    }
-
-    // ── REGLAS DE VALIDACIÓN ─────────────────────────────────────────────
-    const validaciones = {
-        cedula: (val) => {
-            if (!val) return false;
-            if (!/^\d{10}$/.test(val) && !/^\d{13}$/.test(val)) return false;
-            if (val.length === 10) return validarCedulaEcuatoriana(val);
-            if (val.length === 13) {
-                if (/^(\d)\1{12}$/.test(val)) return false;
-                return val.substring(10, 13) === "001";
+        // ── VALIDACIÓN DE CÉDULA ECUATORIANA ──────────────────────────────────
+        function validarCedulaEcuatoriana(cedula) {
+            if (!/^\d{10}$/.test(cedula)) return false;
+            if (/^(\d)\1{9}$/.test(cedula)) return false;
+            const provincia = parseInt(cedula.substring(0, 2));
+            if (provincia < 1 || provincia > 24) return false;
+            const digitoVerificador = parseInt(cedula.charAt(9));
+            let suma = 0;
+            for (let i = 0; i < 9; i++) {
+                let digito = parseInt(cedula.charAt(i));
+                if (i % 2 === 0) { digito *= 2; if (digito > 9) digito -= 9; }
+                suma += digito;
             }
-            return false;
-        },
-        nombres: (val) => /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,150}$/.test(val.trim()),
-        correo: (val) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val.trim()),
-        placa: (val) => val === '' || /^[A-Z]{3}-?\d{3,4}$/.test(val.trim().toUpperCase()),
-        capacidad: (val) => val === '' || (!isNaN(val) && parseFloat(val) >= 0 && parseFloat(val) <= 100 && !/[eE]/.test(val)),
-        telefono: (val) => val === '' || /^\d{9,10}$/.test(val.trim()),
-    };
-
-    function showFieldError(inputId, errorId, customMsg = null) {
-        const input = document.getElementById(inputId);
-        const error = document.getElementById(errorId);
-        if (input) input.classList.add('input-error');
-        if (error) {
-            if (customMsg) error.textContent = customMsg;
-            error.classList.add('visible');
-        }
-    }
-
-    function hideFieldError(inputId, errorId) {
-        const input = document.getElementById(inputId);
-        const error = document.getElementById(errorId);
-        if (input) input.classList.remove('input-error');
-        if (error) error.classList.remove('visible');
-    }
-
-    function clearTranspErrors() {
-        ['transp-cedula','transp-nombres','transp-correo','transp-placa','transp-capacidad','transp-telefono'].forEach(id => hideFieldError(id, id + '-error'));
-    }
-
-    // ── VALIDACIÓN DINÁMICA DE FORMULARIOS ────────────────────────────────
-    function checkTranspFormValidity() {
-        const cedula = document.getElementById('transp-cedula').value.trim();
-        const nombres = document.getElementById('transp-nombres').value.trim();
-        const correo = document.getElementById('transp-correo').value.trim();
-        const placa = document.getElementById('transp-placa').value.trim();
-        const capacidad = document.getElementById('transp-capacidad').value;
-        const telefono = document.getElementById('transp-telefono').value.trim();
-        const currentId = modeTransp === 'edit' ? parseInt(document.getElementById('transp-id').value) : null;
-        const btn = document.getElementById('btn-guardar-transp');
-
-        let isValid = true;
-
-        if (modeTransp === 'create') {
-            isValid = isValid && validaciones.cedula(cedula);
-            isValid = isValid && validaciones.nombres(nombres);
-            isValid = isValid && validaciones.correo(correo);
-            const pass = document.getElementById('transp-password').value;
-            isValid = isValid && pass && pass.length >= 8;
-        } else {
-            isValid = isValid && validaciones.nombres(nombres);
-            isValid = isValid && validaciones.correo(correo);
+            return ((10 - (suma % 10)) % 10) === digitoVerificador;
         }
 
-        if (placa !== '') {
-            isValid = isValid && validaciones.placa(placa) && placaUnica(placa, currentId);
-        }
-        if (capacidad !== '') {
-            isValid = isValid && validaciones.capacidad(capacidad);
-        }
-        if (telefono !== '') {
-            isValid = isValid && validaciones.telefono(telefono);
-        }
-
-        if (isValid) {
-            btn.disabled = false;
-            btn.classList.remove('opacity-50', 'cursor-not-allowed');
-        } else {
-            btn.disabled = true;
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
-        }
-    }
-
-    function checkDeleteFormValidity() {
-        const razon = document.getElementById('delete-razon').value;
-        const btn = document.getElementById('btn-desactivar-submit');
-        if (razon) {
-            btn.disabled = false;
-            btn.classList.remove('opacity-50', 'cursor-not-allowed');
-        } else {
-            btn.disabled = true;
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
-        }
-    }
-
-    function checkRutaFormValidity() {
-        const json = document.getElementById('ruta-json').value.trim();
-        const motivo = document.getElementById('ruta-motivo').value.trim();
-        const btn = document.getElementById('btn-ruta-submit');
-        if (json && motivo) {
-            btn.disabled = false;
-            btn.classList.remove('opacity-50', 'cursor-not-allowed');
-        } else {
-            btn.disabled = true;
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
-        }
-    }
-
-    function setupTranspValidation() {
-        const campos = [
-            { id: 'transp-cedula',    errorId: 'transp-cedula-error',    validate: validaciones.cedula,    msg: 'Cédula ecuatoriana inválida (10 dígitos) o RUC (13 dígitos terminado en 001).' },
-            { id: 'transp-nombres',   errorId: 'transp-nombres-error',   validate: validaciones.nombres,   msg: 'Solo letras y espacios (mín. 3 caracteres).' },
-            { id: 'transp-correo',    errorId: 'transp-correo-error',    validate: validaciones.correo,    msg: 'Correo electrónico válido (sin caracteres especiales).' },
-            { id: 'transp-placa',     errorId: 'transp-placa-error',     validate: validaciones.placa,     msg: 'Formato: 3 letras + guión opcional + 3-4 dígitos (ABC-1234).' },
-            { id: 'transp-capacidad', errorId: 'transp-capacidad-error', validate: validaciones.capacidad, msg: 'Debe ser un número positivo (máx. 100 ton).' },
-            { id: 'transp-telefono',  errorId: 'transp-telefono-error',  validate: validaciones.telefono,  msg: 'Debe tener 9 o 10 dígitos.' },
-        ];
-        campos.forEach(c => {
-            const el = document.getElementById(c.id);
-            if (!el) return;
-            
-            const handleInputValidation = () => {
-                const val = el.value;
-                const currentId = modeTransp === 'edit' ? parseInt(document.getElementById('transp-id').value) : null;
-                
-                let isFieldValid = c.validate(val);
-                let customMsg = c.msg;
-                
-                if (c.id === 'transp-placa' && val !== '' && isFieldValid) {
-                    if (!placaUnica(val, currentId)) {
-                        isFieldValid = false;
-                        customMsg = 'Esta placa ya está registrada en otro transportista.';
-                    }
-                }
-                
-                if (isFieldValid) {
-                    hideFieldError(c.id, c.errorId);
-                } else {
-                    showFieldError(c.id, c.errorId, customMsg);
-                }
-                
-                checkTranspFormValidity();
-            };
-
-            el.addEventListener('input', handleInputValidation);
-            el.addEventListener('blur', () => {
-                if (el.value.trim() === '' && (c.id === 'transp-cedula' || c.id === 'transp-nombres' || c.id === 'transp-correo')) {
-                    showFieldError(c.id, c.errorId, 'Este campo es obligatorio.');
-                }
-                checkTranspFormValidity();
+        // ── VALIDACIÓN DE UNICIDAD DE PLACA ──────────────────────────────────
+        function placaUnica(placa, excludeId = null) {
+            const placaNormalizada = placa.trim().toUpperCase().replace(/-/g, '');
+            if (!placaNormalizada) return true;
+            return !transportistasData.some(t => {
+                if (excludeId && t.id === excludeId) return false;
+                const tPlaca = (t.placa_vehiculo || '').trim().toUpperCase().replace(/-/g, '');
+                return tPlaca === placaNormalizada;
             });
-        });
-
-        // Add validations to Password generator and inputs
-        const pass = document.getElementById('transp-password');
-        if (pass) {
-            pass.addEventListener('input', checkTranspFormValidity);
         }
 
-        // Delete form validation triggers
-        const delRazon = document.getElementById('delete-razon');
-        if (delRazon) {
-            delRazon.addEventListener('change', checkDeleteFormValidity);
-        }
-        
-        // Route form validation triggers
-        ['ruta-json', 'ruta-motivo'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.addEventListener('input', checkRutaFormValidity);
+        // ── REGLAS DE VALIDACIÓN ─────────────────────────────────────────────
+        const validaciones = {
+            cedula: (val) => {
+                if (!val) return false;
+                if (!/^\d{10}$/.test(val) && !/^\d{13}$/.test(val)) return false;
+                if (val.length === 10) return validarCedulaEcuatoriana(val);
+                if (val.length === 13) {
+                    if (/^(\d)\1{12}$/.test(val)) return false;
+                    return val.substring(10, 13) === "001";
+                }
+                return false;
+            },
+            nombres: (val) => /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,150}$/.test(val.trim()),
+            correo: (val) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val.trim()),
+            placa: (val) => val === '' || /^[A-Z]{3}-?\d{3,4}$/.test(val.trim().toUpperCase()),
+            capacidad: (val) => val === '' || (!isNaN(val) && parseFloat(val) >= 0 && parseFloat(val) <= 100 && !/[eE]/.test(val)),
+            telefono: (val) => val === '' || /^\d{9,10}$/.test(val.trim()),
+        };
+
+        function showFieldError(inputId, errorId, customMsg = null) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            if (input) input.classList.add('input-error');
+            if (error) {
+                if (customMsg) error.textContent = customMsg;
+                error.classList.add('visible');
             }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        await cargarTransportistas();
-        setupTranspValidation();
-    });
-
-    let toastTimeout;
-    function showToast(msg, type = 'success') {
-        const c = document.getElementById('toast-container');
-        const t = document.getElementById('toast');
-        document.getElementById('toast-message').textContent = msg;
-        t.className = type === 'error'
-            ? 'rounded-lg p-4 shadow-lg flex items-center bg-red-50 text-red-800 border-l-4 border-red-500'
-            : 'rounded-lg p-4 shadow-lg flex items-center bg-green-50 text-green-800 border-l-4 border-green-500';
-        document.getElementById('toast-icon-success').classList.toggle('hidden', type === 'error');
-        document.getElementById('toast-icon-error').classList.toggle('hidden', type !== 'error');
-        c.classList.remove('hidden', 'animate-fade-out-up');
-        c.classList.add('animate-fade-in-down');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-            c.classList.remove('animate-fade-in-down');
-            c.classList.add('animate-fade-out-up');
-            setTimeout(() => c.classList.add('hidden'), 300);
-        }, 4000);
-    }
-
-    function cerrarSesion() { localStorage.clear(); window.location.href = '../index.html'; }
-
-    function generarPassword() {
-        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
-        document.getElementById('transp-password').value = Array.from({length:10}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
-        checkTranspFormValidity();
-    }
-
-    function switchTab(tabId) {
-        ['transportistas','monitoreo'].forEach(t => {
-            document.getElementById(`view-${t}`).classList.add('hidden-view');
-            document.getElementById(`tab-btn-${t}`).className = "w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all text-brandBlue-100 hover:bg-brandBlue-600/40 hover:text-white";
-        });
-        document.getElementById(`view-${tabId}`).classList.remove('hidden-view');
-        document.getElementById(`tab-btn-${tabId}`).className = "w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all bg-brandBlue-700 text-white shadow-sm border border-brandBlue-600";
-    }
-
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-    function toggleInactivos() {
-        verInactivos = document.getElementById('chk-ver-inactivos').checked;
-        cargarTransportistas();
-    }
-
-    async function cargarTransportistas() {
-        try {
-            const resp = await fetch(`${API}/api/transportistas/?solo_activos=${!verInactivos}`, { headers: headers() });
-            transportistasData = await resp.json();
-            renderTransportistas();
-        } catch (e) { console.error(e); }
-    }
-
-    async function cargarViajesMonitoreo() {
-        try {
-            const resp = await fetch(`${API}/api/monitoreo/viajes-en-ejecucion`, { headers: headers() });
-            viajesData = await resp.json();
-            renderViajes();
-        } catch (e) { console.error(e); }
-    }
-
-    // ── REDISEÑO DE TARJETAS DE INFORMACIÓN (CARDS) ──────────────────────
-    function renderTransportistas() {
-        const container = document.getElementById('grid-transportistas');
-        if (transportistasData.length === 0) {
-            container.innerHTML = '<div class="col-span-full bg-white border border-gray-100 rounded-2xl p-8 text-center text-gray-500 shadow-sm"><p class="text-base font-semibold">No se encontraron transportistas.</p></div>';
-            return;
         }
 
-        container.innerHTML = transportistasData.map(t => {
-            const docBadge = t.estado_documentacion === 'APROBADO' ? 'bg-green-100 text-green-800' : t.estado_documentacion === 'PENDIENTE' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
-            const docText  = { APROBADO: 'Docs Aprobados', PENDIENTE: 'Docs Pendientes', RECHAZADO: 'Docs Rechazados', SIN_DOCS: 'Sin Docs' }[t.estado_documentacion] || t.estado_documentacion;
-            const estadoBadge = t.activo ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600';
-            const estadoText  = t.activo ? 'Activo' : 'Inactivo';
-            
-            // Iniciales del transportista
-            const iniciales = (t.nombres || '').split(' ').map(n => n.charAt(0)).slice(0, 2).join('').toUpperCase();
+        function hideFieldError(inputId, errorId) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            if (input) input.classList.remove('input-error');
+            if (error) error.classList.remove('visible');
+        }
 
-            return `
+        function clearTranspErrors() {
+            ['transp-cedula', 'transp-nombres', 'transp-correo', 'transp-placa', 'transp-capacidad', 'transp-telefono'].forEach(id => hideFieldError(id, id + '-error'));
+        }
+
+        // ── VALIDACIÓN DINÁMICA DE FORMULARIOS ────────────────────────────────
+        function checkTranspFormValidity() {
+            const cedula = document.getElementById('transp-cedula').value.trim();
+            const nombres = document.getElementById('transp-nombres').value.trim();
+            const correo = document.getElementById('transp-correo').value.trim();
+            const placa = document.getElementById('transp-placa').value.trim();
+            const capacidad = document.getElementById('transp-capacidad').value;
+            const telefono = document.getElementById('transp-telefono').value.trim();
+            const currentId = modeTransp === 'edit' ? parseInt(document.getElementById('transp-id').value) : null;
+            const btn = document.getElementById('btn-guardar-transp');
+
+            let isValid = true;
+
+            if (modeTransp === 'create') {
+                isValid = isValid && validaciones.cedula(cedula);
+                isValid = isValid && validaciones.nombres(nombres);
+                isValid = isValid && validaciones.correo(correo);
+                const pass = document.getElementById('transp-password').value;
+                isValid = isValid && pass && pass.length >= 8;
+            } else {
+                isValid = isValid && validaciones.nombres(nombres);
+                isValid = isValid && validaciones.correo(correo);
+            }
+
+            if (placa !== '') {
+                isValid = isValid && validaciones.placa(placa) && placaUnica(placa, currentId);
+            }
+            if (capacidad !== '') {
+                isValid = isValid && validaciones.capacidad(capacidad);
+            }
+            if (telefono !== '') {
+                isValid = isValid && validaciones.telefono(telefono);
+            }
+
+            if (isValid) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function checkDeleteFormValidity() {
+            const razon = document.getElementById('delete-razon').value;
+            const btn = document.getElementById('btn-desactivar-submit');
+            if (razon) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function checkRutaFormValidity() {
+            const json = document.getElementById('ruta-json').value.trim();
+            const motivo = document.getElementById('ruta-motivo').value.trim();
+            const btn = document.getElementById('btn-ruta-submit');
+            if (json && motivo) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function setupTranspValidation() {
+            const campos = [
+                { id: 'transp-cedula', errorId: 'transp-cedula-error', validate: validaciones.cedula, msg: 'Cédula ecuatoriana inválida (10 dígitos) o RUC (13 dígitos terminado en 001).' },
+                { id: 'transp-nombres', errorId: 'transp-nombres-error', validate: validaciones.nombres, msg: 'Solo letras y espacios (mín. 3 caracteres).' },
+                { id: 'transp-correo', errorId: 'transp-correo-error', validate: validaciones.correo, msg: 'Correo electrónico válido (sin caracteres especiales).' },
+                { id: 'transp-placa', errorId: 'transp-placa-error', validate: validaciones.placa, msg: 'Formato: 3 letras + guión opcional + 3-4 dígitos (ABC-1234).' },
+                { id: 'transp-capacidad', errorId: 'transp-capacidad-error', validate: validaciones.capacidad, msg: 'Debe ser un número positivo (máx. 100 ton).' },
+                { id: 'transp-telefono', errorId: 'transp-telefono-error', validate: validaciones.telefono, msg: 'Debe tener 9 o 10 dígitos.' },
+            ];
+            campos.forEach(c => {
+                const el = document.getElementById(c.id);
+                if (!el) return;
+
+                const handleInputValidation = () => {
+                    const val = el.value;
+                    const currentId = modeTransp === 'edit' ? parseInt(document.getElementById('transp-id').value) : null;
+
+                    let isFieldValid = c.validate(val);
+                    let customMsg = c.msg;
+
+                    if (c.id === 'transp-placa' && val !== '' && isFieldValid) {
+                        if (!placaUnica(val, currentId)) {
+                            isFieldValid = false;
+                            customMsg = 'Esta placa ya está registrada en otro transportista.';
+                        }
+                    }
+
+                    if (isFieldValid) {
+                        hideFieldError(c.id, c.errorId);
+                    } else {
+                        showFieldError(c.id, c.errorId, customMsg);
+                    }
+
+                    checkTranspFormValidity();
+                };
+
+                el.addEventListener('input', handleInputValidation);
+                el.addEventListener('blur', () => {
+                    if (el.value.trim() === '' && (c.id === 'transp-cedula' || c.id === 'transp-nombres' || c.id === 'transp-correo')) {
+                        showFieldError(c.id, c.errorId, 'Este campo es obligatorio.');
+                    }
+                    checkTranspFormValidity();
+                });
+            });
+
+            // Add validations to Password generator and inputs
+            const pass = document.getElementById('transp-password');
+            if (pass) {
+                pass.addEventListener('input', checkTranspFormValidity);
+            }
+
+            // Delete form validation triggers
+            const delRazon = document.getElementById('delete-razon');
+            if (delRazon) {
+                delRazon.addEventListener('change', checkDeleteFormValidity);
+            }
+
+            // Route form validation triggers
+            ['ruta-json', 'ruta-motivo'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', checkRutaFormValidity);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await cargarTransportistas();
+            setupTranspValidation();
+        });
+
+        let toastTimeout;
+        function showToast(msg, type = 'success') {
+            const c = document.getElementById('toast-container');
+            const t = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            t.className = type === 'error'
+                ? 'rounded-lg p-4 shadow-lg flex items-center bg-red-50 text-red-800 border-l-4 border-red-500'
+                : 'rounded-lg p-4 shadow-lg flex items-center bg-green-50 text-green-800 border-l-4 border-green-500';
+            document.getElementById('toast-icon-success').classList.toggle('hidden', type === 'error');
+            document.getElementById('toast-icon-error').classList.toggle('hidden', type !== 'error');
+            c.classList.remove('hidden', 'animate-fade-out-up');
+            c.classList.add('animate-fade-in-down');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                c.classList.remove('animate-fade-in-down');
+                c.classList.add('animate-fade-out-up');
+                setTimeout(() => c.classList.add('hidden'), 300);
+            }, 4000);
+        }
+
+        function cerrarSesion() { localStorage.clear(); window.location.href = '../index.html'; }
+
+        function generarPassword() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+            document.getElementById('transp-password').value = Array.from({ length: 10 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+            checkTranspFormValidity();
+        }
+
+        function switchTab(tabId) {
+            ['transportistas', 'monitoreo'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.add('hidden-view');
+                document.getElementById(`tab-btn-${t}`).className = "w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all text-brandBlue-100 hover:bg-brandBlue-600/40 hover:text-white";
+            });
+            document.getElementById(`view-${tabId}`).classList.remove('hidden-view');
+            document.getElementById(`tab-btn-${tabId}`).className = "w-full flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all bg-brandBlue-700 text-white shadow-sm border border-brandBlue-600";
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function toggleInactivos() {
+            verInactivos = document.getElementById('chk-ver-inactivos').checked;
+            cargarTransportistas();
+        }
+
+        async function cargarTransportistas() {
+            try {
+                const resp = await fetch(`${API}/api/transportistas/?solo_activos=${!verInactivos}`, { headers: headers() });
+                transportistasData = await resp.json();
+                renderTransportistas();
+            } catch (e) { console.error(e); }
+        }
+
+        async function cargarViajesMonitoreo() {
+            try {
+                const resp = await fetch(`${API}/api/monitoreo/viajes-en-ejecucion`, { headers: headers() });
+                viajesData = await resp.json();
+                renderViajes();
+            } catch (e) { console.error(e); }
+        }
+
+        // ── REDISEÑO DE TARJETAS DE INFORMACIÓN (CARDS) ──────────────────────
+        function renderTransportistas() {
+            const container = document.getElementById('grid-transportistas');
+            if (transportistasData.length === 0) {
+                container.innerHTML = '<div class="col-span-full bg-white border border-gray-100 rounded-2xl p-8 text-center text-gray-500 shadow-sm"><p class="text-base font-semibold">No se encontraron transportistas.</p></div>';
+                return;
+            }
+
+            container.innerHTML = transportistasData.map(t => {
+                const docBadge = t.estado_documentacion === 'APROBADO' ? 'bg-green-100 text-green-800' : t.estado_documentacion === 'PENDIENTE' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
+                const docText = { APROBADO: 'Docs Aprobados', PENDIENTE: 'Docs Pendientes', RECHAZADO: 'Docs Rechazados', SIN_DOCS: 'Sin Docs' }[t.estado_documentacion] || t.estado_documentacion;
+                const estadoBadge = t.activo ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600';
+                const estadoText = t.activo ? 'Activo' : 'Inactivo';
+
+                // Iniciales del transportista
+                const iniciales = (t.nombres || '').split(' ').map(n => n.charAt(0)).slice(0, 2).join('').toUpperCase();
+
+                return `
             <div class="bg-white border border-brandGray-100 hover:border-brandBlue-100 hover:shadow-xl rounded-2xl p-6 transition-all duration-300 relative overflow-hidden flex flex-col justify-between shadow-sm ${!t.activo ? 'opacity-75' : ''}">
                 <div>
                     <!-- Encabezado de la Tarjeta -->
@@ -697,15 +904,15 @@
                             Editar
                         </button>
                         ${t.activo
-                            ? `<button onclick="desactivarTransportista(${t.id})" class="flex items-center gap-1 text-xs text-brandOrange-500 hover:text-brandOrange-600 font-bold px-3 py-1.5 hover:bg-brandOrange-50 rounded-lg transition-colors" title="Desactivar unidad">
+                        ? `<button onclick="desactivarTransportista(${t.id})" class="flex items-center gap-1 text-xs text-brandOrange-500 hover:text-brandOrange-600 font-bold px-3 py-1.5 hover:bg-brandOrange-50 rounded-lg transition-colors" title="Desactivar unidad">
                                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
                                 Suspender
                                </button>`
-                            : `<button onclick="activarTransportista(${t.id})" class="flex items-center gap-1 text-xs text-green-600 hover:text-green-700 font-bold px-3 py-1.5 hover:bg-green-50 rounded-lg transition-colors" title="Reactivar unidad">
+                        : `<button onclick="activarTransportista(${t.id})" class="flex items-center gap-1 text-xs text-green-600 hover:text-green-700 font-bold px-3 py-1.5 hover:bg-green-50 rounded-lg transition-colors" title="Reactivar unidad">
                                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 Activar
                                </button>`
-                        }
+                    }
                     </div>
                     <button onclick="confirmarEliminarPermanente(${t.id})" class="flex items-center gap-1 text-xs text-red-500 hover:text-red-700 hover:bg-red-50 font-bold px-3 py-1.5 rounded-lg transition-colors" title="Eliminar permanentemente de PostgreSQL">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -713,482 +920,892 @@
                     </button>
                 </div>
             </div>`;
-        }).join('');
-    }
-
-    // ── MODALES ───────────────────────────────────────────────────────────
-    async function openModalTransp(mode, id = null) {
-        modeTransp = mode;
-        clearTranspErrors();
-        document.getElementById('form-transp').reset();
-        document.getElementById('transp-id').value = id || '';
-
-        const cedulaInput = document.getElementById('transp-cedula');
-        const nombresInput = document.getElementById('transp-nombres');
-        const correoInput = document.getElementById('transp-correo');
-        cedulaInput.readOnly = false;
-        nombresInput.readOnly = false;
-        correoInput.readOnly = false;
-        cedulaInput.classList.remove('bg-gray-100', 'cursor-not-allowed');
-        nombresInput.classList.remove('bg-gray-100', 'cursor-not-allowed');
-        correoInput.classList.remove('bg-gray-100', 'cursor-not-allowed');
-
-        if (mode === 'create') {
-            document.getElementById('modal-transp-title').textContent = "Registrar Nuevo Transportista";
-            document.getElementById('div-password').style.display = 'block';
-            document.getElementById('transp-password').required = true;
-            generarPassword();
-        } else {
-            document.getElementById('modal-transp-title').textContent = "Editar Transportista";
-            document.getElementById('div-password').style.display = 'none';
-            document.getElementById('transp-password').required = false;
-
-            try {
-                const resp = await fetch(`${API}/api/transportistas/${id}`, { headers: headers() });
-                if (!resp.ok) throw new Error('No se pudo cargar el transportista');
-                const t = await resp.json();
-
-                document.getElementById('transp-cedula').value    = t.cedula || '';
-                document.getElementById('transp-nombres').value   = t.nombres || '';
-                document.getElementById('transp-correo').value    = t.correo || '';
-                document.getElementById('transp-placa').value     = t.placa_vehiculo || '';
-                document.getElementById('transp-capacidad').value = t.capacidad_ton || '';
-                document.getElementById('transp-telefono').value  = t.telefono || '';
-
-                cedulaInput.readOnly = true;
-                cedulaInput.classList.add('bg-gray-100', 'cursor-not-allowed');
-                nombresInput.readOnly = true;
-                nombresInput.classList.add('bg-gray-100', 'cursor-not-allowed');
-            } catch (err) {
-                showToast('Error al cargar los datos del transportista', 'error');
-                return;
-            }
-        }
-        checkTranspFormValidity();
-        document.getElementById('modal-transp').classList.add('active');
-    }
-
-    async function activarTransportista(id) {
-        document.getElementById('modal-activar-id').value = id;
-        const t = transportistasData.find(x => x.id === id);
-        document.getElementById('modal-activar-nombre').textContent = t ? t.nombres : '';
-        document.getElementById('modal-activar').classList.add('active');
-    }
-
-    async function confirmarActivar() {
-        const id = document.getElementById('modal-activar-id').value;
-        closeModal('modal-activar');
-        try {
-            const resp = await fetch(`${API}/api/transportistas/${id}/activar`, { method: 'PATCH', headers: headers() });
-            if (!resp.ok) { const e = await resp.json(); throw new Error(e.detail); }
-            showToast('Transportista activado correctamente');
-            await cargarTransportistas();
-        } catch (err) { showToast(err.message, 'error'); }
-    }
-
-    function desactivarTransportista(id) {
-        const t = transportistasData.find(x => x.id === id);
-        if (!t) return;
-        document.getElementById('form-delete').reset();
-        document.getElementById('delete-id').value = id;
-        document.getElementById('delete-name').textContent = t.nombres;
-        hideFieldError('delete-razon', 'delete-razon-error');
-        checkDeleteFormValidity();
-        document.getElementById('modal-delete').classList.add('active');
-    }
-
-    function confirmarEliminarPermanente(id) {
-        const t = transportistasData.find(x => x.id === id);
-        if (!t) return;
-        document.getElementById('perm-delete-id').value = id;
-        document.getElementById('perm-delete-name').textContent = t.nombres;
-        document.getElementById('modal-delete-permanente').classList.add('active');
-    }
-
-    async function eliminarPermanente() {
-        const id = document.getElementById('perm-delete-id').value;
-        try {
-            const resp = await fetch(`${API}/api/transportistas/${id}/permanente`, { method: 'DELETE', headers: headers() });
-            if (!resp.ok) { const e = await resp.json(); throw new Error(e.detail); }
-            showToast('Transportista eliminado permanentemente');
-            closeModal('modal-delete-permanente');
-            await cargarTransportistas();
-        } catch (err) { showToast(err.message, 'error'); }
-    }
-
-    function openModalRuta(id) {
-        const v = viajesData.find(x => x.id === id);
-        if (!v) return;
-        document.getElementById('form-ruta').reset();
-        document.getElementById('ruta-viaje-id').value = id;
-        document.getElementById('ruta-codigo').textContent = v.codigo;
-        hideFieldError('ruta-json', 'ruta-json-error');
-        hideFieldError('ruta-motivo', 'ruta-motivo-error');
-        checkRutaFormValidity();
-        document.getElementById('modal-ruta').classList.add('active');
-    }
-
-    // ── FORMULARIOS ──────────────────────────────────────────────────────
-    document.getElementById('form-transp').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const cedula    = document.getElementById('transp-cedula').value.trim();
-        const nombres   = document.getElementById('transp-nombres').value.trim();
-        const correo    = document.getElementById('transp-correo').value.trim();
-        const placa     = document.getElementById('transp-placa').value.trim();
-        const capacidad = document.getElementById('transp-capacidad').value;
-        const currentId = modeTransp === 'edit' ? parseInt(document.getElementById('transp-id').value) : null;
-
-        if (modeTransp === 'create') {
-            if (!validaciones.cedula(cedula) || !validaciones.nombres(nombres) || !validaciones.correo(correo) || this.querySelector('#transp-password').value.length < 8) {
-                showToast('Corrija los errores antes de continuar.', 'error');
-                return;
-            }
-        } else {
-            if (!validaciones.nombres(nombres) || !validaciones.correo(correo)) {
-                showToast('Corrija los errores antes de continuar.', 'error');
-                return;
-            }
+            }).join('');
         }
 
-        if (placa !== '' && (!validaciones.placa(placa) || !placaUnica(placa, currentId))) {
-            showToast('Placa inválida o ya registrada.', 'error');
-            return;
-        }
+        // ── MODALES ───────────────────────────────────────────────────────────
+        async function openModalTransp(mode, id = null) {
+            modeTransp = mode;
+            clearTranspErrors();
+            document.getElementById('form-transp').reset();
+            document.getElementById('transp-id').value = id || '';
 
-        if (capacidad !== '' && !validaciones.capacidad(capacidad)) {
-            showToast('Capacidad de carga fuera de rango.', 'error');
-            return;
-        }
+            const cedulaInput = document.getElementById('transp-cedula');
+            const nombresInput = document.getElementById('transp-nombres');
+            const correoInput = document.getElementById('transp-correo');
+            cedulaInput.readOnly = false;
+            nombresInput.readOnly = false;
+            correoInput.readOnly = false;
+            cedulaInput.classList.remove('bg-gray-100', 'cursor-not-allowed');
+            nombresInput.classList.remove('bg-gray-100', 'cursor-not-allowed');
+            correoInput.classList.remove('bg-gray-100', 'cursor-not-allowed');
 
-        const btn = document.getElementById('btn-guardar-transp');
-        btn.disabled = true;
-        btn.textContent = 'Guardando...';
+            if (mode === 'create') {
+                document.getElementById('modal-transp-title').textContent = "Registrar Nuevo Transportista";
+                document.getElementById('div-password').style.display = 'block';
+                document.getElementById('transp-password').required = true;
+                generarPassword();
+            } else {
+                document.getElementById('modal-transp-title').textContent = "Editar Transportista";
+                document.getElementById('div-password').style.display = 'none';
+                document.getElementById('transp-password').required = false;
 
-        if (modeTransp === 'create') {
-            const formData = new FormData(this);
-            const correoVal  = formData.get('correo');
-            const passwordVal = formData.get('password');
-            try {
-                const resp = await fetch(`${API}/api/transportistas/`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${TOKEN}` },
-                    body: formData,
-                });
-                if (!resp.ok) { const err = await resp.json(); throw new Error(err.detail); }
-                document.getElementById('cred-correo').textContent    = correoVal;
-                document.getElementById('cred-password').textContent  = passwordVal;
-                closeModal('modal-transp');
-                document.getElementById('modal-credenciales').classList.add('active');
-                await cargarTransportistas();
-            } catch (err) { showToast(err.message, 'error'); }
-            finally {
-                btn.textContent = 'Guardar Datos';
-                checkTranspFormValidity();
-            }
-        } else {
-            const id = document.getElementById('transp-id').value;
-            const payload = {
-                nombres: nombres || null,
-                correo: correo || null,
-                placa_vehiculo: placa || null,
-                capacidad_ton:  capacidad !== '' ? parseFloat(capacidad) : null,
-            };
-            try {
-                const resp = await fetch(`${API}/api/transportistas/${id}`, {
-                    method: 'PUT',
-                    headers: headers(),
-                    body: JSON.stringify(payload),
-                });
-                if (!resp.ok) { const err = await resp.json(); throw new Error(err.detail); }
-                showToast('Transportista actualizado correctamente');
-                closeModal('modal-transp');
-                await cargarTransportistas();
-            } catch (err) { showToast(err.message, 'error'); }
-            finally {
-                btn.textContent = 'Guardar Datos';
-                checkTranspFormValidity();
-            }
-        }
-    });
-
-    document.getElementById('form-delete').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const razon = document.getElementById('delete-razon').value;
-        if (!razon) { showFieldError('delete-razon', 'delete-razon-error', 'Seleccione un motivo.'); showToast('Seleccione un motivo.', 'error'); return; }
-        hideFieldError('delete-razon', 'delete-razon-error');
-        const id = document.getElementById('delete-id').value;
-        const payload = { razon, observaciones: document.getElementById('delete-observaciones')?.value || '' };
-        
-        const btn = document.getElementById('btn-desactivar-submit');
-        btn.disabled = true;
-        btn.textContent = 'Desactivando...';
-
-        try {
-            const resp = await fetch(`${API}/api/transportistas/${id}`, { method: 'DELETE', headers: headers(), body: JSON.stringify(payload) });
-            if (!resp.ok) { const e = await resp.json(); throw new Error(e.detail); }
-            showToast('Transportista desactivado');
-            closeModal('modal-delete');
-            await cargarTransportistas();
-        } catch (err) { showToast(err.message, 'error'); }
-        finally {
-            btn.textContent = 'Suspender';
-            checkDeleteFormValidity();
-        }
-    });
-
-    document.getElementById('form-ruta').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const json   = document.getElementById('ruta-json').value.trim();
-        const motivo = document.getElementById('ruta-motivo').value.trim();
-        if (!json || !motivo) { showToast('Complete todos los campos obligatorios.', 'error'); return; }
-        
-        const btn = document.getElementById('btn-ruta-submit');
-        btn.disabled = true;
-        btn.textContent = 'Actualizando...';
-
-        const id = document.getElementById('ruta-viaje-id').value;
-        try {
-            const resp = await fetch(`${API}/api/monitoreo/viajes/${id}/ruta`, {
-                method: 'PATCH', headers: headers(),
-                body: JSON.stringify({ nueva_ruta_json: json, motivo }),
-            });
-            if (!resp.ok) { const err = await resp.json(); throw new Error(err.detail); }
-            showToast('Ruta actualizada');
-            closeModal('modal-ruta');
-            await cargarViajesMonitoreo();
-        } catch (err) { showToast(err.message, 'error'); }
-        finally {
-            btn.textContent = 'Actualizar Ruta';
-            checkRutaFormValidity();
-        }
-    });
-
-    // ── MONITOREO DE VIAJES CON MAPA INTERACTIVO ─────────────────────────────
-    function initMap() {
-        if (mapInstance) return;
-        mapInstance = L.map('map').setView([-1.8312, -78.1834], 7);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(mapInstance);
-    }
-
-    function getModoGPS() {
-        const sel = document.getElementById('select-modo-gps');
-        return sel ? sel.value : 'simulado';
-    }
-
-    function cambiarModoGPS() {
-        const modo = getModoGPS();
-        if (modo === 'simulado') {
-            iniciarActualizacionPeriodica();
-            showToast('Modo Simulación activado – actualización cada 10s');
-        } else {
-            if (intervaloMonitoreo) clearInterval(intervaloMonitoreo);
-            intervaloMonitoreo = null;
-            showToast('Modo GPS Registrado – posición estática desde la BD');
-        }
-        cargarMonitoreoConMapa();
-    }
-
-    async function cargarMonitoreoConMapa() {
-        const modo = getModoGPS();
-        try {
-            const resp = await fetch(`${API}/api/monitoreo/viajes-en-ejecucion`, { headers: headers() });
-            const viajes = await resp.json();
-            viajesData = viajes;
-
-            limpiarMarcadores();
-            renderListaViajes();
-
-            await Promise.all(viajes.map(async (viaje) => {
                 try {
-                    const posResp = await fetch(`${API}/api/monitoreo/ubicacion/${viaje.id}?strategy_type=${modo}`, { headers: headers() });
-                    if (posResp.ok) {
-                        const posData = await posResp.json();
-                        agregarMarcador(viaje, posData.lat, posData.lng);
-                    } else {
-                        const lat = viaje.latitud_actual || viaje.latitud_origen || -1.8;
-                        const lng = viaje.longitud_actual || viaje.longitud_origen || -78;
-                        agregarMarcador(viaje, lat, lng);
-                    }
-                } catch (e) {
-                    const lat = viaje.latitud_actual || viaje.latitud_origen || -1.8;
-                    const lng = viaje.longitud_actual || viaje.longitud_origen || -78;
-                    agregarMarcador(viaje, lat, lng);
+                    const resp = await fetch(`${API}/api/transportistas/${id}`, { headers: headers() });
+                    if (!resp.ok) throw new Error('No se pudo cargar el transportista');
+                    const t = await resp.json();
+
+                    document.getElementById('transp-cedula').value = t.cedula || '';
+                    document.getElementById('transp-nombres').value = t.nombres || '';
+                    document.getElementById('transp-correo').value = t.correo || '';
+                    document.getElementById('transp-placa').value = t.placa_vehiculo || '';
+                    document.getElementById('transp-capacidad').value = t.capacidad_ton || '';
+                    document.getElementById('transp-telefono').value = t.telefono || '';
+
+                    cedulaInput.readOnly = true;
+                    cedulaInput.classList.add('bg-gray-100', 'cursor-not-allowed');
+                    nombresInput.readOnly = true;
+                    nombresInput.classList.add('bg-gray-100', 'cursor-not-allowed');
+                } catch (err) {
+                    showToast('Error al cargar los datos del transportista', 'error');
+                    return;
                 }
-            }));
-
-            if (viajes.length > 0 && mapInstance) {
-                const grupo = L.featureGroup(Object.values(marcadores));
-                mapInstance.fitBounds(grupo.getBounds().pad(0.1));
             }
-        } catch (e) {
-            console.error('Error cargando monitoreo:', e);
-            showToast('Error al cargar viajes del monitoreo', 'error');
+            checkTranspFormValidity();
+            document.getElementById('modal-transp').classList.add('active');
         }
-    }
 
-    async function localizarViaje(viajeId) {
-        const viaje = viajesData.find(v => v.id === viajeId);
-        if (!viaje) return;
-        const modo = getModoGPS();
-        try {
-            const posResp = await fetch(`${API}/api/monitoreo/ubicacion/${viajeId}?strategy_type=${modo}`, { headers: headers() });
-            if (posResp.ok) {
-                const posData = await posResp.json();
-                if (marcadores[viajeId]) {
-                    marcadores[viajeId].setLatLng([posData.lat, posData.lng]);
-                } else {
-                    agregarMarcador(viaje, posData.lat, posData.lng);
+        async function activarTransportista(id) {
+            document.getElementById('modal-activar-id').value = id;
+            const t = transportistasData.find(x => x.id === id);
+            document.getElementById('modal-activar-nombre').textContent = t ? t.nombres : '';
+            document.getElementById('modal-activar').classList.add('active');
+        }
+
+        async function confirmarActivar() {
+            const id = document.getElementById('modal-activar-id').value;
+            closeModal('modal-activar');
+            try {
+                const resp = await fetch(`${API}/api/transportistas/${id}/activar`, { method: 'PATCH', headers: headers() });
+                if (!resp.ok) { const e = await resp.json(); throw new Error(e.detail); }
+                showToast('Transportista activado correctamente');
+                await cargarTransportistas();
+            } catch (err) { showToast(err.message, 'error'); }
+        }
+
+        function desactivarTransportista(id) {
+            const t = transportistasData.find(x => x.id === id);
+            if (!t) return;
+            document.getElementById('form-delete').reset();
+            document.getElementById('delete-id').value = id;
+            document.getElementById('delete-name').textContent = t.nombres;
+            hideFieldError('delete-razon', 'delete-razon-error');
+            checkDeleteFormValidity();
+            document.getElementById('modal-delete').classList.add('active');
+        }
+
+        function confirmarEliminarPermanente(id) {
+            const t = transportistasData.find(x => x.id === id);
+            if (!t) return;
+            document.getElementById('perm-delete-id').value = id;
+            document.getElementById('perm-delete-name').textContent = t.nombres;
+            document.getElementById('modal-delete-permanente').classList.add('active');
+        }
+
+        async function eliminarPermanente() {
+            const id = document.getElementById('perm-delete-id').value;
+            try {
+                const resp = await fetch(`${API}/api/transportistas/${id}/permanente`, { method: 'DELETE', headers: headers() });
+                if (!resp.ok) { const e = await resp.json(); throw new Error(e.detail); }
+                showToast('Transportista eliminado permanentemente');
+                closeModal('modal-delete-permanente');
+                await cargarTransportistas();
+            } catch (err) { showToast(err.message, 'error'); }
+        }
+
+        function openModalRuta(id) {
+            const v = viajesData.find(x => x.id === id);
+            if (!v) return;
+            document.getElementById('form-ruta').reset();
+            document.getElementById('ruta-viaje-id').value = id;
+            document.getElementById('ruta-codigo').textContent = v.codigo;
+            hideFieldError('ruta-json', 'ruta-json-error');
+            hideFieldError('ruta-motivo', 'ruta-motivo-error');
+            checkRutaFormValidity();
+            document.getElementById('modal-ruta').classList.add('active');
+        }
+
+        // ── FORMULARIOS ──────────────────────────────────────────────────────
+        document.getElementById('form-transp').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const cedula = document.getElementById('transp-cedula').value.trim();
+            const nombres = document.getElementById('transp-nombres').value.trim();
+            const correo = document.getElementById('transp-correo').value.trim();
+            const placa = document.getElementById('transp-placa').value.trim();
+            const capacidad = document.getElementById('transp-capacidad').value;
+            const currentId = modeTransp === 'edit' ? parseInt(document.getElementById('transp-id').value) : null;
+
+            if (modeTransp === 'create') {
+                if (!validaciones.cedula(cedula) || !validaciones.nombres(nombres) || !validaciones.correo(correo) || this.querySelector('#transp-password').value.length < 8) {
+                    showToast('Corrija los errores antes de continuar.', 'error');
+                    return;
                 }
-                mapInstance.setView([posData.lat, posData.lng], 10, { animate: true });
-                marcadores[viajeId].openPopup();
-                showToast(`${viaje.codigo}: ${posData.tipo_gps}`);
+            } else {
+                if (!validaciones.nombres(nombres) || !validaciones.correo(correo)) {
+                    showToast('Corrija los errores antes de continuar.', 'error');
+                    return;
+                }
             }
-        } catch (e) {
-            showToast('Error al obtener ubicación', 'error');
-        }
-    }
 
-    function agregarMarcador(viaje, lat, lng) {
-        const iconColor = viaje.estado === 'EN_EJECUCION' ? 'blue' : viaje.horas_retraso > 0 ? 'orange' : 'green';
-        const icono = L.divIcon({
-            className: 'leaflet-marker-icon',
-            html: `<div class="flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-xs shadow-lg ${iconColor === 'blue' ? 'bg-blue-500 border-2 border-white' : iconColor === 'orange' ? 'bg-orange-500 border-2 border-white' : 'bg-green-500 border-2 border-white'}">
-                🚚
-            </div>`,
-            iconSize: [36, 36],
-            iconAnchor: [18, 36],
-            popupAnchor: [0, -36]
+            if (placa !== '' && (!validaciones.placa(placa) || !placaUnica(placa, currentId))) {
+                showToast('Placa inválida o ya registrada.', 'error');
+                return;
+            }
+
+            if (capacidad !== '' && !validaciones.capacidad(capacidad)) {
+                showToast('Capacidad de carga fuera de rango.', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('btn-guardar-transp');
+            btn.disabled = true;
+            btn.textContent = 'Guardando...';
+
+            if (modeTransp === 'create') {
+                const formData = new FormData(this);
+                const correoVal = formData.get('correo');
+                const passwordVal = formData.get('password');
+                try {
+                    const resp = await fetch(`${API}/api/transportistas/`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${TOKEN}` },
+                        body: formData,
+                    });
+                    if (!resp.ok) { const err = await resp.json(); throw new Error(err.detail); }
+                    document.getElementById('cred-correo').textContent = correoVal;
+                    document.getElementById('cred-password').textContent = passwordVal;
+                    closeModal('modal-transp');
+                    document.getElementById('modal-credenciales').classList.add('active');
+                    await cargarTransportistas();
+                } catch (err) { showToast(err.message, 'error'); }
+                finally {
+                    btn.textContent = 'Guardar Datos';
+                    checkTranspFormValidity();
+                }
+            } else {
+                const id = document.getElementById('transp-id').value;
+                const payload = {
+                    nombres: nombres || null,
+                    correo: correo || null,
+                    placa_vehiculo: placa || null,
+                    capacidad_ton: capacidad !== '' ? parseFloat(capacidad) : null,
+                };
+                try {
+                    const resp = await fetch(`${API}/api/transportistas/${id}`, {
+                        method: 'PUT',
+                        headers: headers(),
+                        body: JSON.stringify(payload),
+                    });
+                    if (!resp.ok) { const err = await resp.json(); throw new Error(err.detail); }
+                    showToast('Transportista actualizado correctamente');
+                    closeModal('modal-transp');
+                    await cargarTransportistas();
+                } catch (err) { showToast(err.message, 'error'); }
+                finally {
+                    btn.textContent = 'Guardar Datos';
+                    checkTranspFormValidity();
+                }
+            }
         });
 
-        const popup = `
-            <div class="font-medium text-xs space-y-1 p-1">
-                <p class="font-bold text-brandBlue-700 text-sm">${viaje.codigo}</p>
-                <p class="text-gray-700"><strong>Conductor:</strong> ${viaje.transportista_nombres || 'N/A'}</p>
-                <p class="text-gray-700"><strong>Placa:</strong> ${viaje.placa_vehiculo || 'N/A'}</p>
-                <p class="text-gray-700"><strong>Ruta:</strong> ${viaje.origen} → ${viaje.destino}</p>
-                ${viaje.horas_retraso > 0 ? `<p class="text-brandOrange-600 font-semibold">⚠️ Retraso: ${viaje.horas_retraso}h</p>` : '<p class="text-green-600 font-semibold">✓ En tiempo</p>'}
+        document.getElementById('form-delete').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const razon = document.getElementById('delete-razon').value;
+            if (!razon) { showFieldError('delete-razon', 'delete-razon-error', 'Seleccione un motivo.'); showToast('Seleccione un motivo.', 'error'); return; }
+            hideFieldError('delete-razon', 'delete-razon-error');
+            const id = document.getElementById('delete-id').value;
+            const payload = { razon, observaciones: document.getElementById('delete-observaciones')?.value || '' };
+
+            const btn = document.getElementById('btn-desactivar-submit');
+            btn.disabled = true;
+            btn.textContent = 'Desactivando...';
+
+            try {
+                const resp = await fetch(`${API}/api/transportistas/${id}`, { method: 'DELETE', headers: headers(), body: JSON.stringify(payload) });
+                if (!resp.ok) { const e = await resp.json(); throw new Error(e.detail); }
+                showToast('Transportista desactivado');
+                closeModal('modal-delete');
+                await cargarTransportistas();
+            } catch (err) { showToast(err.message, 'error'); }
+            finally {
+                btn.textContent = 'Suspender';
+                checkDeleteFormValidity();
+            }
+        });
+
+        document.getElementById('form-ruta').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const json = document.getElementById('ruta-json').value.trim();
+            const motivo = document.getElementById('ruta-motivo').value.trim();
+            if (!json || !motivo) { showToast('Complete todos los campos obligatorios.', 'error'); return; }
+
+            const btn = document.getElementById('btn-ruta-submit');
+            btn.disabled = true;
+            btn.textContent = 'Actualizando...';
+
+            const id = document.getElementById('ruta-viaje-id').value;
+            try {
+                const resp = await fetch(`${API}/api/monitoreo/viajes/${id}/ruta`, {
+                    method: 'PATCH', headers: headers(),
+                    body: JSON.stringify({ nueva_ruta_json: json, motivo }),
+                });
+                if (!resp.ok) { const err = await resp.json(); throw new Error(err.detail); }
+                showToast('✅ Ruta actualizada correctamente');
+                closeModal('modal-ruta');
+
+                // 👁️ PATRÓN OBSERVER — notificar cambio de ruta (espejo backend TripSubject)
+                // Equivale a: TripSubject.notify_all('MODIFICACION_RUTA', viaje, db, motivo)
+                // que activa AuditObserver (log BD) + NotificationObserver (Push/SMS)
+                const viajeAfectado = viajesData.find(v => v.id === parseInt(id));
+                if (viajeAfectado) {
+                    routeChangeObserver.notify(
+                        'MODIFICACION_RUTA',
+                        viajeAfectado,
+                        `Desvío registrado. Motivo: ${motivo}.`
+                    );
+                }
+
+                // Notificar al MonitoreoSubject para refrescar mapa y lista
+                await monitoreoSubject.fetchAndNotify();
+            } catch (err) { showToast(err.message, 'error'); }
+            finally {
+                btn.textContent = 'Actualizar Ruta';
+                checkRutaFormValidity();
+            }
+        });
+
+
+
+        // ════════════════════════════════════════════════════════════════════════
+        // 🔌 PATRÓN ADAPTER — CityToGPSAdapter
+        // Adapta un nombre de ciudad (string del formulario) a coordenadas GPS.
+        // Espejo exacto del backend: patterns/adapter/city_gps_adapter.py
+        // ════════════════════════════════════════════════════════════════════════
+        const _CIUDADES_ECUADOR = {
+            'QUITO': { lat: -0.1807, lng: -78.4678 },
+            'GUAYAQUIL': { lat: -2.1708, lng: -79.9224 },
+            'CUENCA': { lat: -2.9001, lng: -79.0059 },
+            'MANTA': { lat: -0.9621, lng: -80.7127 },
+            'PORTOVIEJO': { lat: -1.0546, lng: -80.4542 },
+            'MACHALA': { lat: -3.2581, lng: -79.9553 },
+            'AMBATO': { lat: -1.2491, lng: -78.6168 },
+            'RIOBAMBA': { lat: -1.6731, lng: -78.6483 },
+            'ESMERALDAS': { lat: 0.9682, lng: -79.6517 },
+            'LOJA': { lat: -3.9931, lng: -79.2042 },
+            'IBARRA': { lat: 0.3517, lng: -78.1222 },
+            'QUEVEDO': { lat: -1.0225, lng: -79.4601 },
+            'SANTO DOMINGO': { lat: -0.2530, lng: -79.1754 },
+            'LATACUNGA': { lat: -0.9316, lng: -78.6056 },
+            'TULCAN': { lat: 0.8119, lng: -77.7180 },
+            'BABAHOYO': { lat: -1.8022, lng: -79.5344 },
+        };
+
+        /** 🔌 ADAPTER: Convierte un nombre de ciudad a {lat, lng} */
+        const CityToGPSAdapter = {
+            getCoordinates(cityName) {
+                if (!cityName) return { lat: -0.1807, lng: -78.4678 }; // fallback: Quito
+                const key = cityName.trim().toUpperCase();
+                return _CIUDADES_ECUADOR[key] || { lat: -0.1807, lng: -78.4678 };
+            }
+        };
+
+        // ════════════════════════════════════════════════════════════════════════
+        // 🎁 PATRÓN DECORATOR — ViajeDecorator
+        // Envuelve el dict de un viaje y añade campos visuales dinámicos.
+        // Espejo exacto del backend: patterns/decorator/viaje_visual_decorator.py
+        // ════════════════════════════════════════════════════════════════════════
+        class ViajeDecorator {
+            /** @param {Object} viajeDict – dict plano de la API */
+            constructor(viajeDict) {
+                this._viaje = { ...viajeDict };
+            }
+
+            /** Retorna el dict enriquecido con campos visuales */
+            getDecoratedData() {
+                const d = { ...this._viaje };
+                
+                // Si la ruta/destino fue modificado (guardado en ruta_json), actualizar el destino visualmente
+                if (d.ruta_json) {
+                    d.destino = d.ruta_json;
+                }
+
+                const retraso = d.horas_retraso || 0;
+
+                if (retraso > 2.0) {
+                    d.decoracion_alerta = 'ALTO RIESGO';
+                    d.decoracion_color = 'red';
+                    d.decoracion_mensaje = '⚠️ Retraso crítico en la planificación. Llamar inmediatamente.';
+                } else if (retraso > 0) {
+                    d.decoracion_alerta = 'RIESGO MODERADO';
+                    d.decoracion_color = 'orange';
+                    d.decoracion_mensaje = '⏱️ Demora registrada en el trayecto.';
+                } else {
+                    d.decoracion_alerta = 'OPERACIÓN NORMAL';
+                    d.decoracion_color = 'green';
+                    d.decoracion_mensaje = '✓ Vehículo en ruta y sin novedades.';
+                }
+
+                d.decoracion_clima = 'Clima Reportado: Despejado (22°C)';
+                return d;
+            }
+        }
+
+        // ════════════════════════════════════════════════════════════════════════
+        // ⚙️ PATRÓN STRATEGY — GPS Tracking Strategies
+        // Define algoritmos intercambiables para obtener la posición GPS.
+        // Espejo del backend: patterns/strategy/gps_tracking_strategy.py
+        // ════════════════════════════════════════════════════════════════════════
+
+        /** ⚙️ STRATEGY BASE (interfaz) */
+        class GPSTrackingStrategy {
+            /** @returns {Promise<{lat:number, lng:number, tipo_gps:string}>} */
+            async getLocation(viaje) { throw new Error('getLocation() debe implementarse'); }
+        }
+
+        /**
+         * ⚙️ STRATEGY CONCRETA — Simulación Local (Interpolación Lineal)
+         * Calcula la posición en el frontend usando el reloj del sistema,
+         * en un ciclo continuo de 60 segundos, exactamente igual que el backend.
+         * NO hace ninguna llamada al backend ni a la BD.
+         */
+        class SimulatedInterpolationStrategy extends GPSTrackingStrategy {
+            async getLocation(viaje) {
+                // Usar Adapter para obtener coordenadas desde nombres de ciudades
+                const oriCoords = (viaje.latitud_origen && viaje.longitud_origen)
+                    ? { lat: parseFloat(viaje.latitud_origen), lng: parseFloat(viaje.longitud_origen) }
+                    : CityToGPSAdapter.getCoordinates(viaje.origen);
+
+                const desCoords = (viaje.ruta_json)
+                    ? CityToGPSAdapter.getCoordinates(viaje.ruta_json)
+                    : ((viaje.latitud_destino && viaje.longitud_destino)
+                        ? { lat: parseFloat(viaje.latitud_destino), lng: parseFloat(viaje.longitud_destino) }
+                        : CityToGPSAdapter.getCoordinates(viaje.destino));
+
+                // Ciclo de 60 segundos usando el reloj del sistema (igual que el backend)
+                const segundoActual = (Date.now() / 1000) % 60.0;
+                const pct = segundoActual / 60.0;
+
+                // Pequeño jitter por viaje para que cada camión tenga trayectoria distinta
+                const jitter = 0.001;
+                const jitterLat = Math.sin(Date.now() / 3000 + (viaje.id || 0)) * jitter;
+                const jitterLng = Math.cos(Date.now() / 4000 + (viaje.id || 0)) * jitter;
+
+                return {
+                    lat: oriCoords.lat + (desCoords.lat - oriCoords.lat) * pct + jitterLat,
+                    lng: oriCoords.lng + (desCoords.lng - oriCoords.lng) * pct + jitterLng,
+                    tipo_gps: `Simulado (En Movimiento: ${Math.round(pct * 100)}%)`,
+                };
+            }
+        }
+
+        /**
+         * ⚙️ STRATEGY CONCRETA — GPS Real (Telemetría desde BD)
+         * Consulta el endpoint del backend que usa RealGPSTrackingStrategy.
+         * Sí hace llamadas a la BD vía /api/monitoreo/ubicacion/{id}?strategy_type=real
+         */
+        class RealGPSTrackingStrategy extends GPSTrackingStrategy {
+            async getLocation(viaje) {
+                try {
+                    const resp = await fetch(
+                        `${API}/api/monitoreo/ubicacion/${viaje.id}?strategy_type=real`,
+                        { headers: headers() }
+                    );
+                    if (!resp.ok) throw new Error('Sin telemetría');
+                    return await resp.json(); // {lat, lng, tipo_gps}
+                } catch {
+                    // Fallback: usar Adapter para obtener coordenadas desde nombres de ciudades
+                    const coords = CityToGPSAdapter.getCoordinates(viaje.origen);
+                    return { ...coords, tipo_gps: 'GPS Real (Sin telemetría – fallback ciudad)' };
+                }
+            }
+        }
+
+        /** ⚙️ CONTEXT: mantiene y ejecuta la estrategia activa */
+        class GPSTrackerContext {
+            constructor(strategy) { this._strategy = strategy; }
+            setStrategy(strategy) { this._strategy = strategy; }
+            async execute(viaje) { return this._strategy.getLocation(viaje); }
+        }
+
+        // Instancia global del contexto GPS (se cambia al cambiar modo)
+        let gpsTrackerContext = new GPSTrackerContext(new SimulatedInterpolationStrategy());
+
+        // ⚙️ Cache de posiciones para GPS Real — evita mover marcadores si coords no cambiaron
+        let posicionesCache = {}; // { [viajeId]: { lat, lng } }
+
+        // ── Bucle de animación para modo Simulado (1 segundo, cero llamadas a BD) ──
+        let animationInterval = null;
+
+        /**
+         * Ejecuta un ciclo de animación para el modo Simulado.
+         * Lee viajesData (en memoria), aplica SimulatedInterpolationStrategy y
+         * mueve los marcadores. NUNCA llama al backend ni a la BD.
+         */
+        async function animarSimulado() {
+            if (!mapInstance || !viajesData || viajesData.length === 0) return;
+            const tab = document.getElementById('view-monitoreo');
+            if (!tab || tab.classList.contains('hidden-view')) return;
+            const strategy = new SimulatedInterpolationStrategy();
+            await Promise.all(viajesData.map(async (viaje) => {
+                try {
+                    const pos = await strategy.getLocation(viaje); // 🚫 sin BD
+                    if (marcadores[viaje.id]) {
+                        marcadores[viaje.id].setLatLng([pos.lat, pos.lng]);
+                    } else if (mapInstance) {
+                        _crearMarcador(viaje, pos.lat, pos.lng);
+                    }
+                } catch (e) {
+                    console.warn(`animarSimulado: error viaje ${viaje.id}`, e);
+                }
+            }));
+        }
+
+        // ════════════════════════════════════════════════════════════════════════
+        // 👁️ PATRÓN OBSERVER — MonitoreoSubject + Observers concretos
+        // Espejo del backend: patterns/observer/trip_observer.py
+        // ════════════════════════════════════════════════════════════════════════
+
+        /** 👁️ OBSERVER BASE (interfaz) */
+        class MonitoreoObserver {
+            /** @param {Object[]} viajes - lista decorada de viajes */
+            update(viajes) { throw new Error('update() debe implementarse'); }
+        }
+
+        /**
+         * 👁️ OBSERVER CONCRETO — MapObserver
+         * Responsable de actualizar los marcadores en el mapa Leaflet.
+         * Usa el GPSTrackerContext (Strategy) para obtener posiciones.
+         * Mueve marcadores existentes con setLatLng() (animación suave).
+         */
+        class MapObserver extends MonitoreoObserver {
+            async update(viajes) {
+                if (!mapInstance) return;
+
+                // Limpiar polylines de rutas (no marcadores) para redibujar si es necesario
+                Object.values(rutasPolylines).forEach(p => mapInstance.removeLayer(p));
+                rutasPolylines = {};
+
+                // Obtener IDs activos para eliminar marcadores huérfanos
+                const idsActivos = new Set(viajes.map(v => v.id));
+                Object.keys(marcadores).forEach(id => {
+                    if (!idsActivos.has(parseInt(id))) {
+                        mapInstance.removeLayer(marcadores[id]);
+                        delete marcadores[id];
+                    }
+                });
+
+                // Actualizar / crear marcadores para cada viaje
+                await Promise.all(viajes.map(async (viaje) => {
+                    try {
+                        // ⚙️ Strategy en acción: la estrategia activa calcula la posición
+                        const pos = await gpsTrackerContext.execute(viaje);
+
+                        if (marcadores[viaje.id]) {
+                            // 📡 GPS REAL: solo mover si la posición realmente cambió
+                            // Evita renders innecesarios cuando la telemetría no cambia
+                            const cached = posicionesCache[viaje.id];
+                            const cambio = !cached
+                                || Math.abs(pos.lat - cached.lat) > 0.00001
+                                || Math.abs(pos.lng - cached.lng) > 0.00001;
+                            if (cambio) {
+                                marcadores[viaje.id].setLatLng([pos.lat, pos.lng]);
+                                posicionesCache[viaje.id] = { lat: pos.lat, lng: pos.lng };
+                            }
+                        } else {
+                            // Crear marcador nuevo y guardar en cache
+                            _crearMarcador(viaje, pos.lat, pos.lng);
+                            posicionesCache[viaje.id] = { lat: pos.lat, lng: pos.lng };
+                        }
+
+                        // Actualizar popup con info fresca (incluyendo datos decorados)
+                        if (marcadores[viaje.id]) {
+                            marcadores[viaje.id].setPopupContent(_buildPopup(viaje));
+                        }
+                    } catch (e) {
+                        console.warn(`MapObserver: error procesando viaje ${viaje.id}`, e);
+                    }
+                }));
+
+                // Si es la primera carga (sin marcadores previos), ajustar bounds
+                if (viajes.length > 0 && Object.keys(marcadores).length > 0) {
+                    const grupo = L.featureGroup(Object.values(marcadores));
+                    if (grupo.getBounds().isValid()) {
+                        mapInstance.fitBounds(grupo.getBounds().pad(0.1));
+                    }
+                }
+            }
+        }
+
+        /**
+         * 👁️ OBSERVER CONCRETO — RouteChangeObserver
+         * Espejo del backend: TripSubject → AuditObserver + NotificationObserver
+         * Se activa cuando el coordinador modifica la ruta de un viaje en ejecución.
+         * Genera un log de auditoría (consola) y simula Push/SMS al conductor.
+         * Backend ref: patterns/observer/trip_observer.py → AuditObserver, NotificationObserver
+         *              routers/monitoreo.py → modificar_ruta() → TripSubject.notify_all()
+         */
+        class RouteChangeObserver {
+            constructor() {
+                this._auditLog = []; // 🗂️ AuditObserver: registro inmutable en memoria
+            }
+
+            /**
+             * 👁️ notify() — equivale a AuditObserver.notify() + NotificationObserver.notify()
+             * @param {string} eventType — e.g. 'MODIFICACION_RUTA'
+             * @param {Object} viaje     — { id, codigo, transportista_nombres }
+             * @param {string} extraInfo — detalles del desvío/motivo
+             */
+            notify(eventType, viaje, extraInfo = '') {
+                const ts = new Date().toLocaleTimeString();
+
+                // 🗂️ AuditObserver: persistir en log de auditoría (en memoria)
+                const auditEntry = {
+                    ts,
+                    accion: eventType,
+                    viaje_id: viaje.id,
+                    viaje_codigo: viaje.codigo,
+                    descripcion: `Evento: ${eventType}. Viaje ${viaje.codigo}. ${extraInfo}`,
+                };
+                this._auditLog.push(auditEntry);
+                console.log('[AUDIT]', auditEntry.descripcion);
+
+                // 📲 NotificationObserver: simular Push/SMS al transportista
+                const pushMsg = `[${ts}] Notificación Push/SMS → Transportista: ${viaje.transportista_nombres || 'N/A'}. Evento: ${eventType}. Viaje: ${viaje.codigo}. ${extraInfo}`;
+                console.log('[PUSH]', pushMsg);
+
+                // Mostrar toast de notificación al coordinador
+                showToast(`🔔 Observer: ${eventType} — ${viaje.codigo} notificado`);
+            }
+
+            getAuditLog() { return [...this._auditLog]; }
+        }
+
+        // Instancia global del RouteChangeObserver (Subject frontend para eventos de ruta)
+        const routeChangeObserver = new RouteChangeObserver();
+
+        /**
+         * 👁️ OBSERVER CONCRETO — ListaObserver
+         * Responsable de actualizar la lista lateral de viajes.
+         * Usa los campos decorados por ViajeDecorator para mostrar alertas visuales.
+         */
+        class ListaObserver extends MonitoreoObserver {
+            update(viajes) {
+                const container = document.getElementById('viajes-list');
+                const count = viajes.length;
+                document.getElementById('viajes-count').textContent = count;
+
+                if (count === 0) {
+                    container.innerHTML = `<div class="p-6 text-center text-gray-400 text-sm">
+                    <svg class="h-12 w-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9 3h.01M7 3a6 6 0 110 12 6 6 0 010-12zm0 11a5 5 0 100-10 5 5 0 000 10z"></path>
+                    </svg>
+                    No hay viajes activos
+                </div>`;
+                    return;
+                }
+
+                container.innerHTML = viajes.map(v => {
+                    // 🎁 Decorator en acción: enriquecer datos del viaje con info visual
+                    const dv = new ViajeDecorator(v).getDecoratedData();
+
+                    const colorMap = {
+                        red: 'border-red-200 bg-red-50/40 hover:bg-red-50/80',
+                        orange: 'border-orange-100 bg-orange-50/35 hover:bg-orange-50/70',
+                        green: 'border-brandGray-100 hover:bg-brandGray-50',
+                    };
+                    const badgeMap = {
+                        red: 'bg-red-100 text-red-700',
+                        orange: 'bg-brandOrange-50 text-brandOrange-700',
+                        green: 'bg-green-100 text-green-800',
+                    };
+                    const cardBg = colorMap[dv.decoracion_color] || colorMap.green;
+                    const badge = badgeMap[dv.decoracion_color] || badgeMap.green;
+
+                    return `
+                <div class="border border-solid rounded-xl p-4 transition-all ${cardBg}">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex-1">
+                            <p class="text-xs font-bold text-brandBlue-500">${dv.codigo}</p>
+                            <p class="text-sm font-bold text-gray-800 truncate max-w-[140px]">${dv.transportista_nombres || 'N/A'}</p>
+                        </div>
+                        <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase ${badge}">
+                            ${dv.decoracion_alerta}
+                        </span>
+                    </div>
+                    <div class="text-xs text-gray-600 space-y-1 mb-2">
+                        <p><strong>Placa:</strong> ${dv.placa_vehiculo || 'N/A'}</p>
+                        <p><strong>Ruta:</strong> ${dv.origen} → ${dv.destino}</p>
+                        <p class="italic text-gray-400">${dv.decoracion_clima}</p>
+                    </div>
+                    <p class="text-[11px] font-semibold mb-3 ${dv.decoracion_color === 'red' ? 'text-red-600' : dv.decoracion_color === 'orange' ? 'text-brandOrange-600' : 'text-green-700'}">
+                        ${dv.decoracion_mensaje}
+                    </p>
+                    <div class="flex gap-1.5 mt-2 border-t pt-2">
+                        <button onclick="localizarViaje(${dv.id})" class="flex-1 text-[10px] font-bold px-2 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 border border-green-200 transition-colors" title="Localizar vehículo">📡 Localizar</button>
+                        <button onclick="verRutaEnMapa(${dv.id})" class="flex-1 text-[10px] font-bold px-2 py-1.5 rounded-lg bg-brandBlue-50 text-brandBlue-700 hover:bg-brandBlue-100 border border-brandBlue-200 transition-colors" title="Ver ruta trazada">🗺️ Ruta</button>
+                        <button onclick="openModalRuta(${dv.id})" class="flex-1 text-[10px] font-bold px-2 py-1.5 rounded-lg bg-orange-50 text-brandOrange-600 hover:bg-orange-100 border border-orange-200 transition-colors" title="Registrar modificación de ruta / desvío">🔄 Desviar</button>
+                    </div>
+                </div>`;
+                }).join('');
+            }
+        }
+
+        /**
+         * 👁️ SUBJECT (Observable) — MonitoreoSubject
+         * Mantiene la lista de observers y los notifica cuando hay datos nuevos.
+         * Gestiona el polling periódico y delega la obtención de datos al API.
+         */
+        class MonitoreoSubject {
+            constructor() {
+                this._observers = [];      // lista de MonitoreoObserver registrados
+                this._pollingId = null;   // ID del setInterval activo
+            }
+
+            /** Registra un observer (evita duplicados) */
+            attach(observer) {
+                if (!this._observers.includes(observer)) {
+                    this._observers.push(observer);
+                }
+            }
+
+            /** Desregistra un observer */
+            detach(observer) {
+                this._observers = this._observers.filter(o => o !== observer);
+            }
+
+            /**
+             * Notifica a todos los observers con los viajes decorados.
+             * Aplica ViajeDecorator a cada viaje antes de notificar.
+             */
+            async _notify(viajes) {
+                // 🎁 Decorator: enriquecer cada viaje con datos visuales
+                const viajesDecorados = viajes.map(v => new ViajeDecorator(v).getDecoratedData());
+                // Notificar a todos los observers registrados
+                for (const obs of this._observers) {
+                    await obs.update(viajesDecorados);
+                }
+            }
+
+            /** Obtiene viajes del API y notifica a los observers */
+            async fetchAndNotify() {
+                try {
+                    const resp = await fetch(`${API}/api/monitoreo/viajes-en-ejecucion`, { headers: headers() });
+                    if (!resp.ok) throw new Error('Error al cargar viajes');
+                    const viajes = await resp.json();
+                    viajesData = viajes;
+                    await this._notify(viajes);
+                } catch (e) {
+                    console.error('MonitoreoSubject.fetchAndNotify error:', e);
+                    showToast('Error al cargar viajes del monitoreo', 'error');
+                }
+            }
+
+            /** Inicia el polling periódico */
+            startPolling(ms = 10000) {
+                this.stopPolling();
+                this._pollingId = setInterval(async () => {
+                    const tab = document.getElementById('view-monitoreo');
+                    if (tab && !tab.classList.contains('hidden-view')) {
+                        await this.fetchAndNotify();
+                    }
+                }, ms);
+            }
+
+            /** Detiene el polling */
+            stopPolling() {
+                if (this._pollingId) {
+                    clearInterval(this._pollingId);
+                    this._pollingId = null;
+                }
+            }
+        }
+
+        // ── Instancias globales de los patrones ──────────────────────────────
+        const monitoreoSubject = new MonitoreoSubject();
+        const mapObserver = new MapObserver();
+        const listaObserver = new ListaObserver();
+
+        // Registrar observers en el subject (equivale al registro inicial del backend)
+        monitoreoSubject.attach(listaObserver);  // primero la lista (rápido)
+        monitoreoSubject.attach(mapObserver);    // luego el mapa (async con strategy)
+
+        // ════════════════════════════════════════════════════════════════════════
+        // FUNCIONES DE MAPA (internas — usadas por MapObserver)
+        // ════════════════════════════════════════════════════════════════════════
+
+        function initMap() {
+            if (mapInstance) return;
+            mapInstance = L.map('map').setView([-1.8312, -78.1834], 7);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapInstance);
+        }
+
+        function _buildPopup(viaje) {
+            // 🎁 Decorator aplicado dentro del popup del marcador
+            const dv = new ViajeDecorator(viaje).getDecoratedData();
+            const alertColor = dv.decoracion_color === 'red' ? 'text-red-600'
+                : dv.decoracion_color === 'orange' ? 'text-orange-500' : 'text-green-600';
+            return `
+            <div class="font-medium text-xs space-y-1 p-1 min-w-[180px]">
+                <p class="font-bold text-brandBlue-700 text-sm">${dv.codigo}</p>
+                <p class="text-gray-700"><strong>Conductor:</strong> ${dv.transportista_nombres || 'N/A'}</p>
+                <p class="text-gray-700"><strong>Placa:</strong> ${dv.placa_vehiculo || 'N/A'}</p>
+                <p class="text-gray-700"><strong>Ruta:</strong> ${dv.origen} → ${dv.destino}</p>
+                <p class="${alertColor} font-semibold text-[11px]">${dv.decoracion_mensaje}</p>
+                <p class="text-gray-400 text-[10px] italic">${dv.decoracion_clima}</p>
                 <div class="flex gap-1.5 mt-2 border-t pt-2">
-                    <button onclick="localizarViaje(${viaje.id})" class="flex-1 px-2.5 py-1.5 bg-green-600 text-white text-[10px] rounded-lg font-bold hover:bg-green-700 transition-colors">📡 Localizar</button>
-                    <button onclick="verRutaEnMapa(${viaje.id})" class="flex-1 px-2.5 py-1.5 bg-brandBlue-500 text-white text-[10px] rounded-lg font-bold hover:bg-brandBlue-600 transition-colors">🗺️ Ver Ruta</button>
+                    <button onclick="localizarViaje(${dv.id})" class="flex-1 px-2 py-1.5 bg-green-600 text-white text-[10px] rounded-lg font-bold hover:bg-green-700 transition-colors">📡 Localizar</button>
+                    <button onclick="verRutaEnMapa(${dv.id})" class="flex-1 px-2 py-1.5 bg-brandBlue-500 text-white text-[10px] rounded-lg font-bold hover:bg-brandBlue-600 transition-colors">🗺️ Ver Ruta</button>
                 </div>
             </div>
         `;
+        }
 
-        const marcador = L.marker([lat, lng], { icon: icono }).bindPopup(popup).addTo(mapInstance);
-        marcadores[viaje.id] = marcador;
-    }
+        function _crearMarcador(viaje, lat, lng) {
+            const dv = new ViajeDecorator(viaje).getDecoratedData();
+            const bgMap = { red: 'bg-red-500', orange: 'bg-orange-500', green: 'bg-green-500' };
+            const bg = bgMap[dv.decoracion_color] || 'bg-blue-500';
 
-    function limpiarMarcadores() {
-        Object.values(marcadores).forEach(m => mapInstance.removeLayer(m));
-        Object.values(rutasPolylines).forEach(p => mapInstance.removeLayer(p));
-        marcadores = {};
-        rutasPolylines = {};
-    }
+            const icono = L.divIcon({
+                className: 'leaflet-marker-icon',
+                html: `<div class="flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-xs shadow-lg ${bg} border-2 border-white">🚚</div>`,
+                iconSize: [36, 36],
+                iconAnchor: [18, 36],
+                popupAnchor: [0, -36]
+            });
 
-    function verRutaEnMapa(viajeId) {
-        const viaje = viajesData.find(v => v.id === viajeId);
-        if (!viaje) return;
+            const marcador = L.marker([lat, lng], { icon: icono })
+                .bindPopup(_buildPopup(viaje))
+                .addTo(mapInstance);
+            marcadores[viaje.id] = marcador;
+        }
 
-        Object.values(rutasPolylines).forEach(p => mapInstance.removeLayer(p));
-        rutasPolylines = {};
+        async function localizarViaje(viajeId) {
+            const viaje = viajesData.find(v => v.id === viajeId);
+            if (!viaje) return;
+            try {
+                // ⚙️ Strategy en acción: usar la estrategia activa para localizar
+                const pos = await gpsTrackerContext.execute(viaje);
+                if (marcadores[viajeId]) {
+                    marcadores[viajeId].setLatLng([pos.lat, pos.lng]);
+                } else {
+                    _crearMarcador(viaje, pos.lat, pos.lng);
+                }
+                mapInstance.setView([pos.lat, pos.lng], 10, { animate: true });
+                marcadores[viajeId].openPopup();
+                showToast(`${viaje.codigo}: ${pos.tipo_gps}`);
+            } catch (e) {
+                showToast('Error al obtener ubicación', 'error');
+            }
+        }
 
-        if (viaje.latitud_origen && viaje.longitud_origen && viaje.latitud_destino && viaje.longitud_destino) {
-            const originCoordenadas = [viaje.latitud_origen, viaje.longitud_origen];
-            const destinoCoordenadas = [viaje.latitud_destino, viaje.longitud_destino];
+        function verRutaEnMapa(viajeId) {
+            const viaje = viajesData.find(v => v.id === viajeId);
+            if (!viaje) return;
 
-            const polyline = L.polyline([originCoordenadas, destinoCoordenadas], {
-                color: '#1A3B5C',
-                weight: 5,
-                opacity: 0.85,
-                dashArray: '8, 12'
+            Object.values(rutasPolylines).forEach(p => mapInstance.removeLayer(p));
+            rutasPolylines = {};
+
+            // 🔌 Adapter: obtener coordenadas desde nombres de ciudades si faltan lat/lng
+            const oriCoords = (viaje.latitud_origen && viaje.longitud_origen)
+                ? [parseFloat(viaje.latitud_origen), parseFloat(viaje.longitud_origen)]
+                : (() => { const c = CityToGPSAdapter.getCoordinates(viaje.origen); return [c.lat, c.lng]; })();
+
+            const desCoords = (viaje.ruta_json)
+                ? (() => { const c = CityToGPSAdapter.getCoordinates(viaje.ruta_json); return [c.lat, c.lng]; })()
+                : ((viaje.latitud_destino && viaje.longitud_destino)
+                    ? [parseFloat(viaje.latitud_destino), parseFloat(viaje.longitud_destino)]
+                    : (() => { const c = CityToGPSAdapter.getCoordinates(viaje.destino); return [c.lat, c.lng]; })());
+
+            const polyline = L.polyline([oriCoords, desCoords], {
+                color: '#1A3B5C', weight: 5, opacity: 0.85, dashArray: '8, 12'
             }).addTo(mapInstance);
 
             rutasPolylines[viajeId] = polyline;
             mapInstance.fitBounds(polyline.getBounds().pad(0.2));
             showToast(`Mostrando ruta: ${viaje.codigo}`);
-        } else {
-            showToast(`Este viaje no cuenta con coordenadas de ruta válidas.`, 'error');
-        }
-    }
-
-    function renderListaViajes() {
-        const container = document.getElementById('viajes-list');
-        const count = viajesData.length;
-        document.getElementById('viajes-count').textContent = count;
-
-        if (count === 0) {
-            container.innerHTML = `<div class="p-6 text-center text-gray-400 text-sm">
-                <svg class="h-12 w-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9 3h.01M7 3a6 6 0 110 12 6 6 0 010-12zm0 11a5 5 0 100-10 5 5 0 000 10z"></path>
-                </svg>
-                No hay viajes activos
-            </div>`;
-            return;
         }
 
-        container.innerHTML = viajesData.map(v => {
-            const isLate = v.horas_retraso > 0;
-            const cardBg = isLate ? 'border-orange-100 bg-orange-50/35 hover:bg-orange-50/70' : 'border-brandGray-100 hover:bg-brandGray-50';
-            return `
-            <div class="border border-solid rounded-xl p-4 transition-all ${cardBg}">
-                <div class="flex justify-between items-start mb-2">
-                    <div class="flex-1">
-                        <p class="text-xs font-bold text-brandBlue-500">${v.codigo}</p>
-                        <p class="text-sm font-bold text-gray-800 truncate max-w-[140px]">${v.transportista_nombres || 'N/A'}</p>
-                    </div>
-                    <span class="text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase ${isLate ? 'bg-brandOrange-50 text-brandOrange-700' : 'bg-green-100 text-green-800'}">
-                        ${isLate ? 'Demora' : 'OK'}
-                    </span>
-                </div>
-                <div class="text-xs text-gray-600 space-y-1 mb-3">
-                    <p><strong>Placa:</strong> ${v.placa_vehiculo || 'N/A'}</p>
-                    <p><strong>Ruta:</strong> ${v.origen} → ${v.destino}</p>
-                    ${isLate ? `<p class="text-brandOrange-600 font-semibold">⚠️ Retraso: ${v.horas_retraso}h</p>` : ''}
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="localizarViaje(${v.id})" class="flex-1 text-[11px] font-bold px-2 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 border border-green-200 transition-colors">📡 Localizar</button>
-                    <button onclick="verRutaEnMapa(${v.id})" class="flex-1 text-[11px] font-bold px-2 py-1.5 rounded-lg bg-brandBlue-50 text-brandBlue-700 hover:bg-brandBlue-100 border border-brandBlue-200 transition-colors">🗺️ Ver Ruta</button>
-                </div>
-            </div>`;
-        }).join('');
-    }
+        function getModoGPS() {
+            const sel = document.getElementById('select-modo-gps');
+            return sel ? sel.value : 'simulado';
+        }
 
-    function recargarMonitoreo() {
-        showToast('Actualizando datos de monitoreo...');
-        cargarMonitoreoConMapa();
-    }
+        function cambiarModoGPS() {
+            const modo = getModoGPS();
+            posicionesCache = {}; // limpiar cache al cambiar modo
 
-    function iniciarActualizacionPeriodica() {
-        if (intervaloMonitoreo) clearInterval(intervaloMonitoreo);
-        intervaloMonitoreo = setInterval(() => {
-            const tab = document.getElementById('view-monitoreo');
-            if (tab && !tab.classList.contains('hidden-view') && getModoGPS() === 'simulado') {
-                cargarMonitoreoConMapa();
+            if (modo === 'simulado') {
+                // ⚙️ Strategy: interpolación local, CERO llamadas a BD
+                gpsTrackerContext.setStrategy(new SimulatedInterpolationStrategy());
+                // Animación 1 segundo (mueve marcadores sin BD)
+                if (animationInterval) clearInterval(animationInterval);
+                animationInterval = setInterval(animarSimulado, 1000);
+                // Solo refrescar lista de viajes cada 30s
+                monitoreoSubject.startPolling(30000);
+                showToast('🎮 Modo Simulación – movimiento calculado localmente, sin BD');
+            } else {
+                // ⚙️ Strategy: GPS real desde BD vía API
+                gpsTrackerContext.setStrategy(new RealGPSTrackingStrategy());
+                // Sin animación — solo actualizar si datos cambian
+                if (animationInterval) { clearInterval(animationInterval); animationInterval = null; }
+                // Polling cada 1 hora (telemetría no cambia frecuentemente)
+                monitoreoSubject.startPolling(3600000);
+                showToast('📡 Modo GPS Real – actualiza solo si hay cambios (cada hora)');
             }
-        }, 10000);
-    }
-
-    const switchTabOriginal = switchTab;
-    switchTab = function(tabId) {
-        switchTabOriginal(tabId);
-        if (tabId === 'monitoreo') {
-            initMap();
-            setTimeout(() => {
-                if (mapInstance) mapInstance.invalidateSize();
-                cargarMonitoreoConMapa();
-            }, 200);
-            if (getModoGPS() === 'simulado') {
-                iniciarActualizacionPeriodica();
-            }
-        } else {
-            if (intervaloMonitoreo) clearInterval(intervaloMonitoreo);
-            intervaloMonitoreo = null;
+            // Carga inmediata con la nueva estrategia
+            monitoreoSubject.fetchAndNotify();
         }
-    };
-</script>
+
+        function recargarMonitoreo() {
+            showToast('Actualizando datos de monitoreo...');
+            monitoreoSubject.fetchAndNotify();
+        }
+
+        // ── Sobrescribir switchTab para integrar el Observer ────────────────────
+        const _switchTabOriginal = switchTab;
+        switchTab = function (tabId) {
+            _switchTabOriginal(tabId);
+            if (tabId === 'monitoreo') {
+                initMap();
+                setTimeout(async () => {
+                    if (mapInstance) mapInstance.invalidateSize();
+                    posicionesCache = {}; // limpiar cache al entrar a monitoreo
+                    if (getModoGPS() === 'simulado') {
+                        gpsTrackerContext.setStrategy(new SimulatedInterpolationStrategy());
+                        // Animación 1s (sin BD) + polling datos 30s
+                        if (animationInterval) clearInterval(animationInterval);
+                        animationInterval = setInterval(animarSimulado, 1000);
+                        monitoreoSubject.startPolling(30000);
+                    } else {
+                        gpsTrackerContext.setStrategy(new RealGPSTrackingStrategy());
+                        if (animationInterval) { clearInterval(animationInterval); animationInterval = null; }
+                        // Polling real cada 1 hora
+                        monitoreoSubject.startPolling(3600000);
+                    }
+                    // Primera carga — el subject notifica a todos los observers
+                    await monitoreoSubject.fetchAndNotify();
+                }, 200);
+            } else {
+                // Al salir del monitoreo, detener polling Y animación
+                monitoreoSubject.stopPolling();
+                if (animationInterval) { clearInterval(animationInterval); animationInterval = null; }
+            }
+        };
+    </script>
 </body>
+
 </html>

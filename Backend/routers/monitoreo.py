@@ -172,7 +172,14 @@ def modificar_ruta(
     if not body.nueva_ruta_json:
         raise HTTPException(400, "La nueva ruta no puede estar vacía")
 
+    # 🔌 [PATRÓN ADAPTER] — Convertir el nuevo destino a coordenadas GPS
+    from patterns.adapter.city_gps_adapter import CityToGPSAdapter
+    coords = CityToGPSAdapter.get_coordinates(body.nueva_ruta_json)
+
     v.ruta_json = body.nueva_ruta_json
+    v.destino = body.nueva_ruta_json
+    v.latitud_destino = coords["lat"]
+    v.longitud_destino = coords["lng"]
     db.commit()
 
     # 👁️ [Uso de PATRÓN OBSERVER] - Notificar cambio de ruta a observadores (Auditoría + SMS/Push)
@@ -180,7 +187,7 @@ def modificar_ruta(
         event_type="MODIFICAR_RUTA",
         viaje=v,
         db_session=db,
-        extra_info=f"Nueva ruta modificada. Motivo: {body.motivo}"
+        extra_info=f"Desvío registrado. Nuevo Destino: {body.nueva_ruta_json}. Motivo: {body.motivo}"
     )
 
     return _viaje_monitoreo(v)
