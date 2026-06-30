@@ -11,7 +11,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # ── 1. Dependencias del sistema ───────────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    # PostgreSQL 17
     gnupg curl ca-certificates lsb-release \
     && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
        | gpg --dearmor -o /usr/share/keyrings/pgdg.gpg \
@@ -20,12 +19,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
        > /etc/apt/sources.list.d/pgdg.list \
     && apt-get update && apt-get install -y --no-install-recommends \
     postgresql-17 \
-    # Python
     python3 python3-pip python3-venv \
     libpq-dev gcc \
-    # Nginx
     nginx \
-    # Supervisor (gestor de procesos)
     supervisor \
     && rm -rf /var/lib/apt/lists/*
 
@@ -45,7 +41,7 @@ RUN mkdir -p /docker-entrypoint-initdb.d
 COPY init.sql /docker-entrypoint-initdb.d/01-init.sql
 
 # ── 5. Variables de entorno del backend ───────────────────────────────────────
-ENV DATABASE_URL=postgresql+psycopg://transuser:nueva_password@localhost:5432/transcontrol \
+ENV DATABASE_URL=postgresql+psycopg://transuser:nueva_password@127.0.0.1:5432/transcontrol \
     SECRET_KEY=CAMBIA_ESTA_CLAVE_EN_PRODUCCION_debe_tener_64_chars_minimo \
     ALGORITHM=HS256 \
     ACCESS_TOKEN_EXPIRE_MINUTES=60 \
@@ -57,10 +53,10 @@ ENV DATABASE_URL=postgresql+psycopg://transuser:nueva_password@localhost:5432/tr
 # ── 6. Supervisord ────────────────────────────────────────────────────────────
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# ── 7. Entrypoint (inicializa PostgreSQL + arranca supervisord) ───────────────
+# ── 7. Entrypoint ────────────────────────────────────────────────────────────
 COPY entrypoint.sh /entrypoint.sh
-RUN sed -i 's/\r$//' /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Convertir line-endings de Windows a Unix (por si se editó en Windows)
+RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh
 
 # ── 8. Volumen y puertos ──────────────────────────────────────────────────────
 VOLUME ["/var/lib/postgresql/data", "/app/backend/uploads"]

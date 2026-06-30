@@ -18,14 +18,24 @@ if [ ! -f "$PGDATA/PG_VERSION" ]; then
     # Arrancar postgres temporalmente para crear usuario y BD
     su -s /bin/bash postgres -c "/usr/lib/postgresql/17/bin/pg_ctl start -D $PGDATA -w -o '-c listen_addresses=localhost'"
 
-    # Crear usuario, base de datos e importar schema
+    # Crear usuario y base de datos
     su -s /bin/bash postgres -c "psql -c \"CREATE USER transuser WITH PASSWORD 'nueva_password';\""
     su -s /bin/bash postgres -c "psql -c \"CREATE DATABASE transcontrol OWNER transuser;\""
+
+    # Importar schema + datos de prueba (tablas primero, luego datos)
     su -s /bin/bash postgres -c "psql -d transcontrol -f /docker-entrypoint-initdb.d/01-init.sql"
+
+    # Conceder privilegios al usuario sobre todas las tablas creadas
+    su -s /bin/bash postgres -c "psql -d transcontrol -c \"GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO transuser;\""
+    su -s /bin/bash postgres -c "psql -d transcontrol -c \"GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO transuser;\""
+    su -s /bin/bash postgres -c "psql -d transcontrol -c \"ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO transuser;\""
+    su -s /bin/bash postgres -c "psql -d transcontrol -c \"ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO transuser;\""
 
     # Detener postgres (supervisord lo arrancará de nuevo)
     su -s /bin/bash postgres -c "/usr/lib/postgresql/17/bin/pg_ctl stop -D $PGDATA -m fast"
     echo "✅ Base de datos inicializada correctamente"
+else
+    echo "ℹ️  Base de datos ya inicializada, omitiendo init."
 fi
 
 # ── Asegurar directorio de uploads ───────────────────────────────────────────
